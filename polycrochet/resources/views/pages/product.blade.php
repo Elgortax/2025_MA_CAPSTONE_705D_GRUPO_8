@@ -4,49 +4,70 @@
 @section('content')
   <article class="grid gap-10 lg:grid-cols-2 lg:items-start">
     <div class="space-y-6">
-      <div class="aspect-square overflow-hidden rounded-3xl bg-gradient-to-br from-rose-200 via-amber-200 to-sky-200"></div>
+      <div class="aspect-square overflow-hidden rounded-3xl border border-gray-200 bg-white shadow">
+        <img src="{{ Vite::asset('resources/images/ramos/ramo_gato/ramo_azul_gatito.jpg') }}" alt="Ramo animalitos con gatito azul" class="h-full w-full object-cover" />
+      </div>
       <div class="grid grid-cols-4 gap-3">
-        @for ($i = 1; $i <= 4; $i++)
-          <div class="aspect-square rounded-xl border border-gray-200 bg-white"></div>
-        @endfor
+        @foreach ([
+          'resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg',
+          'resources/images/ramos/ramo_gato/ramo_rosa_blanco.jpg',
+          'resources/images/ramos/ramo_gato/ramo_azul_blanco.jpg',
+          'resources/images/ramos/ramo_gato/ramo_rosa_gatito.jpg'
+        ] as $thumb)
+          <div class="aspect-square overflow-hidden rounded-xl border border-gray-200">
+            <img src="{{ Vite::asset($thumb) }}" alt="VariaciÛn del ramo de gatito" class="h-full w-full object-cover" />
+          </div>
+        @endforeach
       </div>
     </div>
 
     <div class="space-y-6">
       <div>
-        <p class="text-sm uppercase tracking-wide text-blue-600">Colecci√≥n c√°psula</p>
-        <h1 class="text-3xl font-bold">Bufanda acolchada multicolor</h1>
+        <p class="text-sm uppercase tracking-wide text-blue-600">ColecciÛn Animalitos</p>
+        <h1 class="text-3xl font-bold">Ramo crochet Gatito & Flores pastel</h1>
       </div>
-      <p class="text-gray-600">Cada pieza es tejida a mano con hilo hipoalerg√©nico. Personaliza tu paleta de colores y largo para crear la bufanda perfecta para tu estilo.</p>
+      <p class="text-gray-600">Un bouquet tejido completamente a mano que incluye un gatito protagonista y cinco flores suaves. Personaliza la paleta de colores, aÒade un mensaje bordado en la bufanda o integra un nuevo personaje. Ideal para cumpleaÒos, aniversarios o decoraciones tiernas.</p>
       <div class="flex items-center gap-4">
-        <span class="text-3xl font-semibold text-gray-900">$24.990</span>
-        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Disponible</span>
+        <span class="text-3xl font-semibold text-gray-900">$39.990</span>
+        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Hecho a pedido ∑ 7 dÌas</span>
       </div>
       <form class="space-y-4">
         <div>
           <label class="text-sm font-semibold text-gray-700">Color principal</label>
-          <div class="mt-2 flex gap-2">
-            <button type="button" class="h-10 w-10 rounded-full border-2 border-blue-500 bg-blue-500"></button>
-            <button type="button" class="h-10 w-10 rounded-full border border-transparent bg-rose-300"></button>
-            <button type="button" class="h-10 w-10 rounded-full border border-transparent bg-emerald-300"></button>
+          <div class="mt-3 grid grid-cols-4 gap-2">
+            @foreach ([
+              ['label' => 'Pastel rosado', 'value' => 'rosa', 'swatch' => 'bg-rose-300'],
+              ['label' => 'Pastel azul', 'value' => 'azul', 'swatch' => 'bg-sky-300'],
+              ['label' => 'Blanco crema', 'value' => 'crema', 'swatch' => 'bg-amber-100'],
+              ['label' => 'Mix personalizado', 'value' => 'mix', 'swatch' => 'bg-gradient-to-r from-rose-300 via-sky-300 to-amber-200'],
+            ] as $option)
+              <button type="button" class="flex flex-col items-center gap-2 rounded-xl border border-gray-200 p-3 text-xs font-semibold text-gray-600 hover:border-blue-400 hover:text-blue-600">
+                <span class="h-8 w-8 rounded-full {{ $option['swatch'] }}"></span>
+                {{ $option['label'] }}
+              </button>
+            @endforeach
           </div>
         </div>
         <div>
-          <label class="text-sm font-semibold text-gray-700" for="size">Tama√±o</label>
+          <label class="text-sm font-semibold text-gray-700" for="size">TamaÒo</label>
           <select id="size" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <option value="standard">Est√°ndar (1.6 m)</option>
-            <option value="long">Largo (2 m)</option>
-            <option value="custom">Personalizado</option>
+            <option value="standard">Standard ∑ 25 cm de di·metro</option>
+            <option value="grande">Grande ∑ 32 cm de di·metro</option>
+            <option value="custom">Personalizado (indica en notas)</option>
           </select>
         </div>
-        <button type="button" class="w-full rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">A√±adir al carrito</button>
+        <div>
+          <label class="text-sm font-semibold text-gray-700" for="notes">Notas especiales</label>
+          <textarea id="notes" rows="3" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Cuenta la historia detr·s del regalo, mensaje bordado, personaje extra..."></textarea>
+        </div>
+        <button type="button" class="w-full rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">AÒadir al carrito</button>
       </form>
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Detalles</h2>
         <ul class="list-disc space-y-2 pl-5 text-sm text-gray-600">
-          <li>Tejido con lana reciclada y algod√≥n org√°nico.</li>
-          <li>Lavable a mano con agua fr√≠a.</li>
-          <li>Tiempo de confecci√≥n estimado: 5 a 7 d√≠as h√°biles.</li>
+          <li>Incluye base rÌgida para mantener la forma del ramo.</li>
+          <li>Tejido con algodÛn hipoalergÈnico y relleno reciclado.</li>
+          <li>EnvÌo seguro en caja eco-friendly con tarjeta personalizada.</li>
         </ul>
       </section>
     </div>

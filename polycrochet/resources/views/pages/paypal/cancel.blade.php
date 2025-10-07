@@ -7,7 +7,7 @@
       !
     </div>
     <h1 class="text-3xl font-bold">Pago cancelado</h1>
-    <p class="text-gray-600">El proceso de pago se cancelÃ³. Si fue un error, puedes intentar nuevamente o elegir otro mÃ©todo.</p>
+    <p class="text-gray-600">El proceso de pago se canceló. Si fue un error, puedes intentar nuevamente o elegir otro método.</p>
     <div class="flex justify-center gap-4">
       <a href="{{ route('checkout') }}" class="rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white hover:bg-blue-500">Intentar de nuevo</a>
       <a href="{{ route('catalog') }}" class="rounded-full border border-gray-300 px-6 py-3 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-600">Seguir comprando</a>
