@@ -1,11 +1,11 @@
-@extends('layouts.app')
-@section('title', 'Confirmación de pedido | PolyCrochet')
+ï»¿@extends('layouts.app')
+@section('title', 'ConfirmaciÃ³n de pedido | PolyCrochet')
 
 @section('content')
   <section class="mx-auto max-w-3xl space-y-8">
     <header class="space-y-2 text-center">
-      <h1 class="text-3xl font-bold">¡Gracias por tu compra!</h1>
-      <p class="text-gray-600">Tu pedido <span class="font-semibold text-gray-900">PC-10294</span> está en marcha. Te enviaremos actualizaciones por correo.</p>
+      <h1 class="text-3xl font-bold">Â¡Gracias por tu compra!</h1>
+      <p class="text-gray-600">Tu pedido <span class="font-semibold text-gray-900">PC-10294</span> estÃ¡ en marcha. Te enviaremos actualizaciones por correo.</p>
     </header>
 
     <div class="grid gap-6 lg:grid-cols-2">
@@ -14,7 +14,7 @@
         <ul class="space-y-3 text-sm text-gray-600">
           @foreach ([
             [
-              'name' => 'Ramo Animalitos · Gatito pastel',
+              'name' => 'Ramo Animalitos Â· Gatito pastel',
               'image' => 'resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg',
               'price' => '$39.990',
             ],
@@ -36,16 +36,16 @@
           @endforeach
         </ul>
         <div class="border-t pt-3 text-sm">
-          <div class="flex justify-between"><span>Envío</span><span>$4.500</span></div>
+          <div class="flex justify-between"><span>EnvÃ­o</span><span>$4.500</span></div>
           <div class="flex justify-between font-semibold text-gray-900"><span>Total</span><span>$67.390</span></div>
         </div>
       </article>
 
       <article class="space-y-4 rounded-2xl border border-gray-200 bg-white p-6 shadow-sm">
-        <h2 class="text-lg font-semibold">Datos de envío</h2>
-        <p class="text-sm text-gray-600">Camila Rojas<br>Av. Siempre Viva 742<br>Santiago, Región Metropolitana<br>+56 9 1234 5678</p>
-        <p class="text-sm text-gray-600">Método de pago: PayPal</p>
-        <p class="text-sm text-gray-600">Tiempo estimado de confección: 5 a 7 días hábiles.</p>
+        <h2 class="text-lg font-semibold">Datos de envÃ­o</h2>
+        <p class="text-sm text-gray-600">Camila Rojas<br>Av. Siempre Viva 742<br>Santiago, RegiÃ³n Metropolitana<br>+56 9 1234 5678</p>
+        <p class="text-sm text-gray-600">MÃ©todo de pago: PayPal</p>
+        <p class="text-sm text-gray-600">Tiempo estimado de confecciÃ³n: 5 a 7 dÃ­as hÃ¡biles.</p>
       </article>
     </div>
 

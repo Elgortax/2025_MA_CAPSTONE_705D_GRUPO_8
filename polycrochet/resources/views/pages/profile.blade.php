@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ï»¿ï»¿@extends('layouts.app')
 @section('title', 'Perfil | PolyCrochet')
 
 @section('content')
@@ -6,9 +6,9 @@
     <header class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
       <div>
         <h1 class="text-3xl font-bold">Hola, Camila</h1>
-        <p class="text-sm text-gray-600">Administra tus datos personales y revisa tus pedidos más recientes.</p>
+        <p class="text-sm text-gray-600">Administra tus datos personales y revisa tus pedidos mÃ¡s recientes.</p>
       </div>
-      <a href="{{ route('account') }}" class="rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-600">Cerrar sesión</a>
+      <a href="{{ route('account') }}" class="rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:border-blue-400 hover:text-blue-600">Cerrar sesiÃ³n</a>
     </header>
 
     <div class="grid gap-6 lg:grid-cols-3">
@@ -24,7 +24,7 @@
           <label class="text-sm font-medium text-gray-700">Correo
             <input type="email" value="camila@ejemplo.cl" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
           </label>
-          <label class="text-sm font-medium text-gray-700">Teléfono
+          <label class="text-sm font-medium text-gray-700">TelÃ©fono
             <input type="tel" value="+56 9 1234 5678" class="mt-1 w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
           </label>
           <div class="sm:col-span-2 text-right">
@@ -39,7 +39,7 @@
           @foreach ([
             [
               'code' => 'PC-10294',
-              'status' => 'En confección',
+              'status' => 'En confecciÃ³n',
               'status_color' => 'emerald',
               'date' => '20 septiembre 2025',
               'total' => '$67.390',
@@ -66,7 +66,7 @@
                   @endphp
                   <span class="rounded-full px-2 py-0.5 text-xs font-semibold {{ $badge }}">{{ $order['status'] }}</span>
                 </div>
-                <p class="text-xs text-gray-500">{{ $order['date'] }} · {{ $order['total'] }}</p>
+                <p class="text-xs text-gray-500">{{ $order['date'] }} Â· {{ $order['total'] }}</p>
               </div>
             </li>
           @endforeach

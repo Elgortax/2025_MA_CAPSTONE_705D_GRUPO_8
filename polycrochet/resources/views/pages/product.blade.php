@@ -1,4 +1,4 @@
-@extends('layouts.app')
+ï»¿@extends('layouts.app')
 @section('title', 'Detalle de producto | PolyCrochet')
 
 @section('content')
@@ -15,7 +15,7 @@
           'resources/images/ramos/ramo_gato/ramo_rosa_gatito.jpg'
         ] as $thumb)
           <div class="aspect-square overflow-hidden rounded-xl border border-gray-200">
-            <img src="{{ Vite::asset($thumb) }}" alt="Variación del ramo de gatito" class="h-full w-full object-cover" />
+            <img src="{{ Vite::asset($thumb) }}" alt="VariaciÃ³n del ramo de gatito" class="h-full w-full object-cover" />
           </div>
         @endforeach
       </div>
@@ -23,13 +23,13 @@
 
     <div class="space-y-6">
       <div>
-        <p class="text-sm uppercase tracking-wide text-blue-600">Colección Animalitos</p>
+        <p class="text-sm uppercase tracking-wide text-blue-600">ColecciÃ³n Animalitos</p>
         <h1 class="text-3xl font-bold">Ramo crochet Gatito & Flores pastel</h1>
       </div>
-      <p class="text-gray-600">Un bouquet tejido completamente a mano que incluye un gatito protagonista y cinco flores suaves. Personaliza la paleta de colores, añade un mensaje bordado en la bufanda o integra un nuevo personaje. Ideal para cumpleaños, aniversarios o decoraciones tiernas.</p>
+      <p class="text-gray-600">Un bouquet tejido completamente a mano que incluye un gatito protagonista y cinco flores suaves. Personaliza la paleta de colores, aÃ±ade un mensaje bordado en la bufanda o integra un nuevo personaje. Ideal para cumpleaÃ±os, aniversarios o decoraciones tiernas.</p>
       <div class="flex items-center gap-4">
         <span class="text-3xl font-semibold text-gray-900">$39.990</span>
-        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Hecho a pedido · 7 días</span>
+        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Hecho a pedido Â· 7 dÃ­as</span>
       </div>
       <form class="space-y-4">
         <div>
@@ -49,25 +49,25 @@
           </div>
         </div>
         <div>
-          <label class="text-sm font-semibold text-gray-700" for="size">Tamaño</label>
+          <label class="text-sm font-semibold text-gray-700" for="size">TamaÃ±o</label>
           <select id="size" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <option value="standard">Standard · 25 cm de diámetro</option>
-            <option value="grande">Grande · 32 cm de diámetro</option>
+            <option value="standard">Standard Â· 25 cm de diÃ¡metro</option>
+            <option value="grande">Grande Â· 32 cm de diÃ¡metro</option>
             <option value="custom">Personalizado (indica en notas)</option>
           </select>
         </div>
         <div>
           <label class="text-sm font-semibold text-gray-700" for="notes">Notas especiales</label>
-          <textarea id="notes" rows="3" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Cuenta la historia detrás del regalo, mensaje bordado, personaje extra..."></textarea>
+          <textarea id="notes" rows="3" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Cuenta la historia detrÃ¡s del regalo, mensaje bordado, personaje extra..."></textarea>
         </div>
-        <button type="button" class="w-full rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">Añadir al carrito</button>
+        <button type="button" class="w-full rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">AÃ±adir al carrito</button>
       </form>
       <section class="space-y-4">
         <h2 class="text-lg font-semibold">Detalles</h2>
         <ul class="list-disc space-y-2 pl-5 text-sm text-gray-600">
-          <li>Incluye base rígida para mantener la forma del ramo.</li>
-          <li>Tejido con algodón hipoalergénico y relleno reciclado.</li>
-          <li>Envío seguro en caja eco-friendly con tarjeta personalizada.</li>
+          <li>Incluye base rÃ­gida para mantener la forma del ramo.</li>
+          <li>Tejido con algodÃ³n hipoalergÃ©nico y relleno reciclado.</li>
+          <li>EnvÃ­o seguro en caja eco-friendly con tarjeta personalizada.</li>
         </ul>
       </section>
     </div>

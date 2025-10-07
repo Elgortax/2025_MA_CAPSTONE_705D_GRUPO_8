@@ -1,4 +1,4 @@
-@extends('layouts.app')
+Ôªø@extends('layouts.app')
 @section('title', 'Carrito | PolyCrochet')
 
 @section('content')
@@ -9,16 +9,16 @@
       @php
         $cartItems = [
           [
-            'name' => 'Ramo Animalitos ∑ Gatito pastel',
+            'name' => 'Ramo Animalitos ¬∑ Gatito pastel',
             'image' => 'resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg',
-            'options' => 'Color: rosa pastel ∑ TamaÒo: standard',
+            'options' => 'Color: rosa pastel ¬∑ Tama√±o: standard',
             'price' => '$39.990',
             'quantity' => 1,
           ],
           [
             'name' => 'Set de girasoles con abejas',
             'image' => 'resources/images/girasol/girasol_abejas.jpg',
-            'options' => 'Pack 5 unidades ∑ Mensaje bordado',
+            'options' => 'Pack 5 unidades ¬∑ Mensaje bordado',
             'price' => '$22.900',
             'quantity' => 1,
           ],
@@ -58,7 +58,7 @@
           <dd>$62.890</dd>
         </div>
         <div class="flex justify-between">
-          <dt>EnvÌo estimado</dt>
+          <dt>Env√≠o estimado</dt>
           <dd>$4.500</dd>
         </div>
         <div class="flex justify-between font-semibold text-gray-900">
@@ -67,7 +67,7 @@
         </div>
       </dl>
       <a href="{{ route('checkout') }}" class="inline-flex w-full justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">Proceder al checkout</a>
-      <p class="text-xs text-gray-400">El total final se confirmar· durante el pago en PayPal.</p>
+      <p class="text-xs text-gray-400">El total final se confirmar√° durante el pago en PayPal.</p>
     </aside>
   </section>
 @endsection

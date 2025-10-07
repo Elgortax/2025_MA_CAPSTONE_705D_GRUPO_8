@@ -1,13 +1,13 @@
-<footer class="border-t bg-gray-900 text-gray-300">
+Ôªø<footer class="border-t bg-gray-900 text-gray-300">
   <div class="mx-auto grid gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
     <div class="space-y-3">
       <img src="{{ Vite::asset('resources/images/logo/logo.png') }}" alt="PolyCrochet" class="h-12 w-auto" />
-      <p class="text-sm text-gray-400">Piezas tejidas a mano con cariÒo desde Chile. InspÌrate, personaliza y recibe tus favoritos en casa.</p>
+      <p class="text-sm text-gray-400">Piezas tejidas a mano con cari√±o desde Chile. Insp√≠rate, personaliza y recibe tus favoritos en casa.</p>
     </div>
     <div>
-      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">NavegaciÛn</h4>
+      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">Navegaci√≥n</h4>
       <ul class="mt-3 space-y-2 text-sm">
-        <li><a href="{{ route('catalog') }}" class="hover:text-white">Cat·logo</a></li>
+        <li><a href="{{ route('catalog') }}" class="hover:text-white">Cat√°logo</a></li>
         <li><a href="{{ route('nosotros') }}" class="hover:text-white">Nosotros</a></li>
         <li><a href="{{ route('account') }}" class="hover:text-white">Cuenta</a></li>
         <li><a href="{{ route('cart') }}" class="hover:text-white">Carrito</a></li>
@@ -17,13 +17,13 @@
       <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">Soporte</h4>
       <ul class="mt-3 space-y-2 text-sm">
         <li><a href="{{ route('nosotros') }}#faq" class="hover:text-white">Preguntas frecuentes</a></li>
-        <li><a href="{{ route('nosotros') }}#politicas" class="hover:text-white">PolÌticas</a></li>
+        <li><a href="{{ route('nosotros') }}#politicas" class="hover:text-white">Pol√≠ticas</a></li>
         <li><a href="mailto:hola@polycrochet.cl" class="hover:text-white">hola@polycrochet.cl</a></li>
         <li><a href="tel:+56912345678" class="hover:text-white">+56 9 1234 5678</a></li>
       </ul>
     </div>
     <div>
-      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">SÌguenos</h4>
+      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">S√≠guenos</h4>
       <ul class="mt-3 space-y-2 text-sm">
         <li><a href="#" class="hover:text-white">Instagram</a></li>
         <li><a href="#" class="hover:text-white">TikTok</a></li>

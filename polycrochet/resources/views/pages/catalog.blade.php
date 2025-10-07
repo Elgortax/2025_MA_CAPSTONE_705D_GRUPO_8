@@ -1,27 +1,27 @@
-@extends('layouts.app')
-@section('title', 'Cat·logo | PolyCrochet')
+Ôªø@extends('layouts.app')
+@section('title', 'Cat√°logo | PolyCrochet')
 
 @section('content')
   <section class="space-y-10">
     <header class="flex flex-col gap-4 border-b pb-6 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="text-sm uppercase tracking-wide text-blue-600">ColecciÛn destacada</p>
-        <h1 class="text-3xl font-bold">Explora nuestro cat·logo de crochet</h1>
-        <p class="mt-2 text-gray-600">Personaliza colores, tamaÒos y descubre piezas ˙nicas tejidas a mano.</p>
+        <p class="text-sm uppercase tracking-wide text-blue-600">Colecci√≥n destacada</p>
+        <h1 class="text-3xl font-bold">Explora nuestro cat√°logo de crochet</h1>
+        <p class="mt-2 text-gray-600">Personaliza colores, tama√±os y descubre piezas √∫nicas tejidas a mano.</p>
       </div>
       <div class="flex gap-3">
         <select class="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
           <option value="">Ordenar por</option>
-          <option value="recent">M·s recientes</option>
+          <option value="recent">M√°s recientes</option>
           <option value="price_low">Menor precio</option>
           <option value="price_high">Mayor precio</option>
         </select>
         <select class="rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-          <option value="">CategorÌa</option>
+          <option value="">Categor√≠a</option>
           <option value="ramos">Ramos</option>
           <option value="flores">Flores sueltas</option>
           <option value="amigurumis">Amigurumis</option>
-          <option value="munecas">MuÒecas</option>
+          <option value="munecas">Mu√±ecas</option>
         </select>
       </div>
     </header>
@@ -29,24 +29,24 @@
     @php
       $products = [
         [
-          'name' => 'Ramo Animalitos ∑ Gatito pastel',
+          'name' => 'Ramo Animalitos ¬∑ Gatito pastel',
           'image' => 'resources/images/ramos/ramo_gato/ramo_azul_gatito.jpg',
           'price' => '$39.990',
           'description' => 'Bouquet con gatito tejido y flores intercambiables. Personaliza colores y mensaje.',
           'tags' => ['Personalizable', 'Favorito'],
         ],
         [
-          'name' => 'Ramo Animalitos ∑ Pollito sol',
+          'name' => 'Ramo Animalitos ¬∑ Pollito sol',
           'image' => 'resources/images/ramos/ramo_pollo/girasol_pollo/ramo_girasol_pollo.jpg',
           'price' => '$36.500',
-          'description' => 'Ramo con pollito y girasoles tejidos a mano. Ideal para cumpleaÒos y baby showers.',
+          'description' => 'Ramo con pollito y girasoles tejidos a mano. Ideal para cumplea√±os y baby showers.',
           'tags' => ['Hecho a pedido'],
         ],
         [
           'name' => 'Set de girasoles con abejas',
           'image' => 'resources/images/girasol/girasol_abejas.jpg',
           'price' => '$22.900',
-          'description' => 'Cinco girasoles con pequeÒas abejitas crochet para alegrar cualquier rincÛn.',
+          'description' => 'Cinco girasoles con peque√±as abejitas crochet para alegrar cualquier rinc√≥n.',
           'tags' => ['Set 5 unidades'],
         ],
         [
@@ -57,10 +57,10 @@
           'tags' => ['Combina colores'],
         ],
         [
-          'name' => 'MuÒeca crochet ∑ JardÌn',
+          'name' => 'Mu√±eca crochet ¬∑ Jard√≠n',
           'image' => 'resources/images/munecas/muneca_girasol/muneca_flores2.jpg',
           'price' => '$29.500',
-          'description' => 'MuÒeca personalizada con vestido floral y accesorios tejidos. Elige cabellos y tonos.',
+          'description' => 'Mu√±eca personalizada con vestido floral y accesorios tejidos. Elige cabellos y tonos.',
           'tags' => ['Personalizable'],
         ],
         [
@@ -68,7 +68,7 @@
           'image' => 'resources/images/animales/abejas.png',
           'price' => '$21.900',
           'description' => 'Pareja de abejitas amigables con detalles bordados. Perfecto para decorar o regalar.',
-          'tags' => ['EdiciÛn limitada'],
+          'tags' => ['Edici√≥n limitada'],
         ],
       ];
     @endphp

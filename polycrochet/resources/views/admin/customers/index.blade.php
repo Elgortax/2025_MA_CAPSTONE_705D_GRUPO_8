@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+﻿@extends('layouts.admin')
 @section('title', 'Clientes | PolyCrochet')
 @section('page_heading', 'Clientes')
 
