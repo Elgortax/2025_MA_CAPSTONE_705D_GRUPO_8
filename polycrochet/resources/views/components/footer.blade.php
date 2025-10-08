@@ -1,4 +1,4 @@
-﻿<footer class="border-t bg-gray-900 text-gray-300">
+<footer class="border-t bg-gray-900 text-gray-300">
   <div class="mx-auto grid gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
     <div class="space-y-3">
       <img src="{{ Vite::asset('resources/images/logo/logo.png') }}" alt="PolyCrochet" class="h-12 w-auto" />

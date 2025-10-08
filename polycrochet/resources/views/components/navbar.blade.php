@@ -1,4 +1,4 @@
-﻿<header class="border-b bg-white">
+<header class="border-b bg-white">
   <div class="mx-auto flex h-16 items-center justify-between px-4 sm:px-6 lg:px-8">
     <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold text-gray-900">
       <img src="{{ Vite::asset('resources/images/logo/logo.png') }}" alt="PolyCrochet" class="h-10 w-auto" />
