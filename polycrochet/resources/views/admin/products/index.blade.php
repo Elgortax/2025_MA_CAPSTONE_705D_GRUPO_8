@@ -119,7 +119,14 @@
                 <span class="rounded-full px-2 py-0.5 text-xs font-semibold {{ $statusColor }}">{{ $statusLabel }}</span>
               </td>
               <td class="px-4 py-3 text-right">
-                <a href="{{ route('admin.products.edit', $product) }}" class="text-xs font-semibold text-blue-300 hover:text-blue-200">Editar</a>
+                <div class="flex items-center justify-end gap-2">
+                  <a href="{{ route('admin.products.edit', $product) }}" class="text-xs font-semibold text-blue-300 hover:text-blue-200">Editar</a>
+                  <form method="POST" action="{{ route('admin.products.destroy', $product) }}" onsubmit="return confirm('¿Eliminar el producto {{ $product->name }}? Esta acción no se puede deshacer.');">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" class="text-xs font-semibold text-rose-300 hover:text-rose-200">Eliminar</button>
+                  </form>
+                </div>
               </td>
             </tr>
           @empty

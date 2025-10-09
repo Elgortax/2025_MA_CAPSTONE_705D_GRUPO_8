@@ -209,11 +209,24 @@ class ProductController extends Controller
      */
     public function destroy(Product $producto): RedirectResponse
     {
-        $producto->delete();
+        DB::transaction(function () use ($producto): void {
+            $producto->load('images');
+
+            foreach ($producto->images as $image) {
+                $disk = $image->disk ?? 'public';
+
+                if ($image->path && Storage::disk($disk)->exists($image->path)) {
+                    Storage::disk($disk)->delete($image->path);
+                }
+            }
+
+            $producto->variants()->delete();
+            $producto->forceDelete();
+        });
 
         return redirect()
             ->route('admin.products.index')
-            ->with('status', 'Producto archivado.');
+            ->with('status', 'Producto eliminado.');
     }
 
     /**
