@@ -2,7 +2,6 @@
 @section('title', 'Catálogo | PolyCrochet')
 
 @php
-  use Illuminate\Support\Facades\Storage;
   use Illuminate\Support\Str;
 @endphp
 
@@ -42,7 +41,7 @@
       @forelse ($products as $product)
         @php
           $primaryImage = $product->primaryImage;
-          $imageUrl = $primaryImage ? Storage::disk($primaryImage->disk)->url($primaryImage->path) : null;
+          $imageUrl = $primaryImage?->url;
           $tags = collect($product->metadata['tags'] ?? [])->take(2);
           $price = number_format((float) $product->price, 0, ',', '.');
         @endphp

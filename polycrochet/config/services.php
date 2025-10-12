@@ -35,4 +35,11 @@ return [
         ],
     ],
 
+    'supabase' => [
+        'url' => env('SUPABASE_URL'),
+        'service_role' => env('SUPABASE_SERVICE_ROLE'),
+        'bucket' => env('SUPABASE_BUCKET', 'productos'),
+        'public_url' => env('SUPABASE_PUBLIC_URL'),
+    ],
+
 ];

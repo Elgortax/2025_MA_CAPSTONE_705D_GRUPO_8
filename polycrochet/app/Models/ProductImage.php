@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
 
 class ProductImage extends Model
 {
@@ -35,5 +36,23 @@ class ProductImage extends Model
     public function product(): BelongsTo
     {
         return $this->belongsTo(Product::class);
+    }
+
+    /**
+     * Get the accessible URL for the stored image.
+     */
+    public function getUrlAttribute(): ?string
+    {
+        if (! $this->path) {
+            return null;
+        }
+
+        if ($this->disk === 'supabase') {
+            $base = rtrim(config('services.supabase.public_url'), '/');
+
+            return $base ? $base . '/' . ltrim($this->path, '/') : null;
+        }
+
+        return Storage::disk($this->disk ?? config('filesystems.default'))->url($this->path);
     }
 }

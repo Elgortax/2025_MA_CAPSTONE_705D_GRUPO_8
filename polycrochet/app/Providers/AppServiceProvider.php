@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use Illuminate\Filesystem\FilesystemAdapter;
+use Illuminate\Filesystem\FilesystemManager;
+use Illuminate\Filesystem\FlysystemAdapter;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\ServiceProvider;
+use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -19,6 +24,15 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Storage::extend('supabase', function ($app, $config) {
+            $adapter = new InMemoryFilesystemAdapter();
+
+            return new FilesystemAdapter(
+                new FilesystemManager($app),
+                new FlysystemAdapter($adapter),
+                $adapter,
+                $config
+            );
+        });
     }
 }

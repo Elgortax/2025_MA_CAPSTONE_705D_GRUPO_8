@@ -3,11 +3,10 @@
 @section('page_heading', 'Editar producto')
 
 @php
-  use Illuminate\Support\Facades\Storage;
   use Illuminate\Support\Str;
 
   $primaryImage = $product->primaryImage;
-  $imageUrl = $primaryImage ? Storage::disk($primaryImage->disk)->url($primaryImage->path) : null;
+  $imageUrl = $primaryImage?->url;
   $tags = collect($product->metadata['tags'] ?? [])->implode(', ');
 @endphp
 

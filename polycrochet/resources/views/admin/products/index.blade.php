@@ -4,7 +4,6 @@
 
 @php
   use Illuminate\Support\Str;
-  use Illuminate\Support\Facades\Storage;
 @endphp
 
 @section('content')
@@ -91,7 +90,7 @@
           @forelse ($products as $product)
             @php
               $primaryImage = $product->primaryImage;
-              $imageUrl = $primaryImage ? Storage::disk($primaryImage->disk)->url($primaryImage->path) : null;
+              $imageUrl = $primaryImage?->url;
               $price = number_format((float) $product->price, 0, ',', '.');
               $statusLabel = $product->trashed() ? 'Archivado' : ($product->is_active ? 'Publicado' : 'Borrador');
               $statusColor = $product->trashed() ? 'bg-slate-500/20 text-slate-300' : ($product->is_active ? 'bg-emerald-500/10 text-emerald-300' : 'bg-amber-500/10 text-amber-300');

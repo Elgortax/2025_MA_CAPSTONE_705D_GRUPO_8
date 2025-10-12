@@ -5,12 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\ProductRequest;
 use App\Models\Product;
+use App\Models\ProductImage;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
+use RuntimeException;
 
 class ProductController extends Controller
 {
@@ -108,11 +112,11 @@ class ProductController extends Controller
             ]);
 
             if ($request->hasFile('primary_image')) {
-                $path = $request->file('primary_image')->store('products', 'public');
+                $path = $this->uploadToSupabase($request->file('primary_image'));
 
                 $product->images()->create([
                     'path' => $path,
-                    'disk' => 'public',
+                    'disk' => 'supabase',
                     'alt_text' => $product->name,
                     'position' => 0,
                     'is_primary' => true,
@@ -178,19 +182,20 @@ class ProductController extends Controller
             }
 
             if ($request->hasFile('primary_image')) {
-                $path = $request->file('primary_image')->store('products', 'public');
+                $path = $this->uploadToSupabase($request->file('primary_image'));
 
                 $primaryImage = $producto->primaryImage;
                 if ($primaryImage && $primaryImage->path) {
-                    Storage::disk($primaryImage->disk)->delete($primaryImage->path);
+                    $this->deleteImageFile($primaryImage);
                     $primaryImage->update([
                         'path' => $path,
+                        'disk' => 'supabase',
                         'alt_text' => $producto->name,
                     ]);
                 } else {
                     $producto->images()->create([
                         'path' => $path,
-                        'disk' => 'public',
+                        'disk' => 'supabase',
                         'alt_text' => $producto->name,
                         'position' => 0,
                         'is_primary' => true,
@@ -213,11 +218,7 @@ class ProductController extends Controller
             $producto->load('images');
 
             foreach ($producto->images as $image) {
-                $disk = $image->disk ?? 'public';
-
-                if ($image->path && Storage::disk($disk)->exists($image->path)) {
-                    Storage::disk($disk)->delete($image->path);
-                }
+                $this->deleteImageFile($image);
             }
 
             $producto->variants()->delete();
@@ -227,6 +228,76 @@ class ProductController extends Controller
         return redirect()
             ->route('admin.products.index')
             ->with('status', 'Producto eliminado.');
+    }
+
+    /**
+     * Upload an image file to Supabase Storage and return the stored path.
+     */
+    protected function uploadToSupabase(UploadedFile $file): string
+    {
+        $bucket = config('services.supabase.bucket');
+        $baseUrl = rtrim((string) config('services.supabase.url'), '/');
+        $token = config('services.supabase.service_role');
+
+        if (! $bucket || ! $baseUrl || ! $token) {
+            throw new RuntimeException('Supabase Storage no está configurado correctamente.');
+        }
+
+        $path = 'products/' . Str::uuid() . '.' . $file->getClientOriginalExtension();
+
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+            'Content-Type' => $file->getMimeType() ?: 'application/octet-stream',
+            'x-upsert' => 'true',
+        ])->send('POST', "{$baseUrl}/storage/v1/object/{$bucket}/" . ltrim($path, '/'), [
+            'body' => $file->get(),
+        ]);
+
+        if (! $response->successful()) {
+            throw new RuntimeException('Error al subir la imagen a Supabase: ' . $response->body());
+        }
+
+        return $path;
+    }
+
+    /**
+     * Delete the physical file associated with the image record.
+     */
+    protected function deleteImageFile(ProductImage $image): void
+    {
+        if (! $image->path) {
+            return;
+        }
+
+        if ($image->disk === 'supabase') {
+            $this->deleteFromSupabase($image->path);
+
+            return;
+        }
+
+        $disk = $image->disk ?? 'public';
+
+        if (Storage::disk($disk)->exists($image->path)) {
+            Storage::disk($disk)->delete($image->path);
+        }
+    }
+
+    /**
+     * Remove an object from Supabase Storage.
+     */
+    protected function deleteFromSupabase(string $path): void
+    {
+        $bucket = config('services.supabase.bucket');
+        $baseUrl = rtrim((string) config('services.supabase.url'), '/');
+        $token = config('services.supabase.service_role');
+
+        if (! $bucket || ! $baseUrl || ! $token) {
+            return;
+        }
+
+        Http::withHeaders([
+            'Authorization' => 'Bearer ' . $token,
+        ])->delete("{$baseUrl}/storage/v1/object/{$bucket}/" . ltrim($path, '/'));
     }
 
     /**
