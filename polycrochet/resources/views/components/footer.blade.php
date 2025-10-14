@@ -1,40 +1,52 @@
-<footer class="border-t bg-gray-900 text-gray-300">
-  <div class="mx-auto grid gap-8 px-4 py-12 sm:px-6 lg:grid-cols-4 lg:px-8">
-    <div class="space-y-3">
-      <img src="{{ Vite::asset('resources/images/logo/logo.png') }}" alt="PolyCrochet" class="h-12 w-auto" />
-      <p class="text-sm text-gray-400">Piezas tejidas a mano con cariño desde Chile. Inspírate, personaliza y recibe tus favoritos en casa.</p>
+<footer class="relative border-t border-rose-100/80 bg-white/90">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(249,213,220,0.35),transparent_60%)]"></div>
+  <div class="relative mx-auto w-full max-w-7xl px-4 py-14 sm:px-6 lg:px-10">
+    <div class="grid gap-10 lg:grid-cols-[1.4fr,1fr,1fr,1fr]">
+      <div class="space-y-4">
+        <span class="inline-flex items-center gap-3 text-lg font-semibold text-rose-700">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-rose-300 via-rose-400 to-amber-300 text-base font-bold text-white shadow-lg shadow-rose-200/60">PC</span>
+          PolyCrochet Studio
+        </span>
+        <p class="max-w-sm text-sm text-slate-600">Diseñamos experiencias tejidas con amor, colores suaves y acabados premium para regalos inolvidables.</p>
+        <div class="flex items-center gap-4 text-xs uppercase tracking-[0.18em] text-rose-400">
+          <span>Hecho en Chile</span>
+          <span class="h-1 w-1 rounded-full bg-rose-300"></span>
+          <span>Envíos a todo el país</span>
+        </div>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold uppercase tracking-[0.25em] text-rose-500">Explorar</h4>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li><a href="{{ route('catalog') }}" class="transition hover:text-rose-500">Catálogo completo</a></li>
+          <li><a href="{{ route('nosotros') }}#colecciones" class="transition hover:text-rose-500">Colecciones</a></li>
+          <li><a href="{{ route('nosotros') }}" class="transition hover:text-rose-500">Nuestro proceso</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold uppercase tracking-[0.25em] text-rose-500">Soporte</h4>
+        <ul class="space-y-2 text-sm text-slate-600">
+          <li><a href="{{ route('nosotros') }}#faq" class="transition hover:text-rose-500">Preguntas frecuentes</a></li>
+          <li><a href="{{ route('nosotros') }}#politicas" class="transition hover:text-rose-500">Políticas de envío</a></li>
+          <li><a href="mailto:hola@polycrochet.cl" class="transition hover:text-rose-500">hola@polycrochet.cl</a></li>
+          <li><a href="tel:+56912345678" class="transition hover:text-rose-500">+56 9 1234 5678</a></li>
+        </ul>
+      </div>
+
+      <div class="space-y-3">
+        <h4 class="text-xs font-semibold uppercase tracking-[0.25em] text-rose-500">Conecta</h4>
+        <div class="flex flex-wrap gap-3">
+          @foreach (['Instagram', 'TikTok', 'Pinterest'] as $network)
+            <a href="#" class="inline-flex items-center justify-center rounded-full border border-rose-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-rose-500 transition hover:border-rose-300 hover:text-rose-600">{{ $network }}</a>
+          @endforeach
+        </div>
+      </div>
     </div>
-    <div>
-      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">Navegación</h4>
-      <ul class="mt-3 space-y-2 text-sm">
-        <li><a href="{{ route('catalog') }}" class="hover:text-white">Catálogo</a></li>
-        <li><a href="{{ route('nosotros') }}" class="hover:text-white">Nosotros</a></li>
-        <li><a href="{{ route('account') }}" class="hover:text-white">Cuenta</a></li>
-        <li><a href="{{ route('cart') }}" class="hover:text-white">Carrito</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">Soporte</h4>
-      <ul class="mt-3 space-y-2 text-sm">
-        <li><a href="{{ route('nosotros') }}#faq" class="hover:text-white">Preguntas frecuentes</a></li>
-        <li><a href="{{ route('nosotros') }}#politicas" class="hover:text-white">Políticas</a></li>
-        <li><a href="mailto:hola@polycrochet.cl" class="hover:text-white">hola@polycrochet.cl</a></li>
-        <li><a href="tel:+56912345678" class="hover:text-white">+56 9 1234 5678</a></li>
-      </ul>
-    </div>
-    <div>
-      <h4 class="text-sm font-semibold uppercase tracking-wide text-gray-200">Síguenos</h4>
-      <ul class="mt-3 space-y-2 text-sm">
-        <li><a href="#" class="hover:text-white">Instagram</a></li>
-        <li><a href="#" class="hover:text-white">TikTok</a></li>
-        <li><a href="#" class="hover:text-white">Pinterest</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="border-t border-gray-800">
-    <div class="mx-auto flex flex-col items-center justify-between gap-2 px-4 py-4 text-xs text-gray-500 sm:flex-row sm:px-6 lg:px-8">
-      <span>&copy; {{ date('Y') }} PolyCrochet. Todos los derechos reservados.</span>
-      <a href="{{ route('admin.dashboard') }}" class="hover:text-white">Acceso administrador</a>
+
+    <div class="mt-12 flex flex-col gap-3 border-t border-rose-100 pt-6 text-xs text-slate-500 sm:flex-row sm:items-center sm:justify-between">
+      <span>&copy; {{ date('Y') }} PolyCrochet Studio. Todas las piezas son hechas a mano.</span>
+      <a href="{{ route('admin.dashboard') }}" class="uppercase tracking-[0.18em] text-rose-400 transition hover:text-rose-600">Panel administrador</a>
     </div>
   </div>
 </footer>

@@ -1,75 +1,121 @@
 @extends('layouts.app')
-@section('title', 'Detalle de producto | PolyCrochet')
+@section('title', $product->name . ' | PolyCrochet')
+
+@php
+  use Illuminate\Support\Str;
+
+  $primaryImage = $product->primaryImage;
+  $galleryImages = $product->images->where('id', '!=', optional($primaryImage)->id);
+  $categorySlug = $product->category ? Str::lower($product->category) : null;
+@endphp
 
 @section('content')
-  <article class="grid gap-10 lg:grid-cols-2 lg:items-start">
+  <article class="grid gap-12 lg:grid-cols-[1.05fr,0.95fr] lg:items-start">
     <div class="space-y-6">
-      <div class="aspect-square overflow-hidden rounded-3xl border border-gray-200 bg-white shadow">
-        <img src="{{ Vite::asset('resources/images/ramos/ramo_gato/ramo_azul_gatito.jpg') }}" alt="Ramo animalitos con gatito azul" class="h-full w-full object-cover" />
-      </div>
-      <div class="grid grid-cols-4 gap-3">
-        @foreach ([
-          'resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg',
-          'resources/images/ramos/ramo_gato/ramo_rosa_blanco.jpg',
-          'resources/images/ramos/ramo_gato/ramo_azul_blanco.jpg',
-          'resources/images/ramos/ramo_gato/ramo_rosa_gatito.jpg'
-        ] as $thumb)
-          <div class="aspect-square overflow-hidden rounded-xl border border-gray-200">
-            <img src="{{ Vite::asset($thumb) }}" alt="Variación del ramo de gatito" class="h-full w-full object-cover" />
+      <div class="relative overflow-hidden rounded-[3rem] border border-rose-100 bg-white/90 shadow-xl shadow-rose-100/50">
+        @if ($primaryImage?->url)
+          <img src="{{ $primaryImage->url }}" alt="{{ $primaryImage->alt_text ?? $product->name }}" class="h-full w-full object-cover" />
+        @else
+          <div class="flex h-full items-center justify-center bg-rose-50 p-12 text-5xl font-semibold text-rose-400">
+            {{ Str::upper(Str::substr($product->name, 0, 1)) }}
           </div>
-        @endforeach
+        @endif
+        <div class="absolute inset-x-6 top-6 flex gap-2">
+          @if ($product->category)
+            <span class="rounded-full border border-rose-100 bg-white/90 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-rose-500">{{ Str::headline($product->category) }}</span>
+          @endif
+          <span class="rounded-full border border-rose-100 bg-rose-100 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-rose-600">Hecho a pedido</span>
+        </div>
       </div>
+      @if ($galleryImages->isNotEmpty())
+        <div class="grid grid-cols-4 gap-3">
+          @foreach ($galleryImages->take(8) as $image)
+            <div class="overflow-hidden rounded-2xl border border-rose-100 bg-white/90 shadow">
+              <img src="{{ $image->url }}" alt="{{ $image->alt_text ?? $product->name }}" class="h-full w-full object-cover transition duration-500 hover:scale-105" />
+            </div>
+          @endforeach
+        </div>
+      @endif
     </div>
 
-    <div class="space-y-6">
-      <div>
-        <p class="text-sm uppercase tracking-wide text-blue-600">Colección Animalitos</p>
-        <h1 class="text-3xl font-bold">Ramo crochet Gatito & Flores pastel</h1>
+    <div class="space-y-8">
+      <div class="space-y-3">
+        @if ($product->category)
+          <p class="text-xs uppercase tracking-[0.28em] text-rose-400">{{ Str::headline($product->category) }}</p>
+        @endif
+        <h1 class="text-3xl font-bold text-rose-700 sm:text-4xl">{{ $product->name }}</h1>
+        <p class="text-sm text-slate-600">{{ $product->description ?? 'Pieza tejida a mano lista para personalizar y regalar.' }}</p>
       </div>
-      <p class="text-gray-600">Un bouquet tejido completamente a mano que incluye un gatito protagonista y cinco flores suaves. Personaliza la paleta de colores, añade un mensaje bordado en la bufanda o integra un nuevo personaje. Ideal para cumpleaños, aniversarios o decoraciones tiernas.</p>
-      <div class="flex items-center gap-4">
-        <span class="text-3xl font-semibold text-gray-900">$39.990</span>
-        <span class="rounded-full bg-green-100 px-3 py-1 text-xs font-semibold text-green-700">Hecho a pedido · 7 días</span>
+
+      <div class="flex flex-wrap items-center gap-4">
+        <span class="text-4xl font-semibold text-rose-600">${{ number_format((float) $product->price, 0, ',', '.') }}</span>
+        <span class="rounded-full border border-rose-100 bg-white/90 px-4 py-2 text-xs font-semibold uppercase tracking-[0.25em] text-rose-500">Edición artesanal limitada</span>
       </div>
-      <form class="space-y-4">
-        <div>
-          <label class="text-sm font-semibold text-gray-700">Color principal</label>
-          <div class="mt-3 grid grid-cols-4 gap-2">
-            @foreach ([
-              ['label' => 'Pastel rosado', 'value' => 'rosa', 'swatch' => 'bg-rose-300'],
-              ['label' => 'Pastel azul', 'value' => 'azul', 'swatch' => 'bg-sky-300'],
-              ['label' => 'Blanco crema', 'value' => 'crema', 'swatch' => 'bg-amber-100'],
-              ['label' => 'Mix personalizado', 'value' => 'mix', 'swatch' => 'bg-gradient-to-r from-rose-300 via-sky-300 to-amber-200'],
-            ] as $option)
-              <button type="button" class="flex flex-col items-center gap-2 rounded-xl border border-gray-200 p-3 text-xs font-semibold text-gray-600 hover:border-blue-400 hover:text-blue-600">
-                <span class="h-8 w-8 rounded-full {{ $option['swatch'] }}"></span>
-                {{ $option['label'] }}
-              </button>
-            @endforeach
-          </div>
+
+      <form method="POST" action="{{ route('cart.store') }}" class="space-y-6" data-add-to-cart-form>
+        @csrf
+        <input type="hidden" name="product_id" value="{{ $product->id }}">
+        <div class="space-y-3">
+          <label class="text-xs font-semibold uppercase tracking-[0.28em] text-rose-400" for="quantity">Cantidad</label>
+          <input id="quantity" name="quantity" type="number" value="1" min="1" max="10" class="w-24 rounded-2xl border border-rose-100 bg-white/90 px-4 py-2 text-sm text-slate-600 focus:border-rose-300 focus:bg-white focus:outline-none" />
         </div>
-        <div>
-          <label class="text-sm font-semibold text-gray-700" for="size">Tamaño</label>
-          <select id="size" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
-            <option value="standard">Standard · 25 cm de diámetro</option>
-            <option value="grande">Grande · 32 cm de diámetro</option>
-            <option value="custom">Personalizado (indica en notas)</option>
-          </select>
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <span class="text-xs uppercase tracking-[0.25em] text-rose-400">Materiales sustentables y personalizados</span>
+          <button type="submit" class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-rose-400 to-amber-300 px-8 py-3 text-sm font-semibold text-white shadow shadow-rose-200/50 transition hover:from-rose-500 hover:to-amber-400" data-add-to-cart>Agregar al carrito</button>
         </div>
-        <div>
-          <label class="text-sm font-semibold text-gray-700" for="notes">Notas especiales</label>
-          <textarea id="notes" rows="3" class="mt-2 w-full rounded-md border border-gray-300 px-3 py-2 text-sm text-gray-700 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" placeholder="Cuenta la historia detrás del regalo, mensaje bordado, personaje extra..."></textarea>
-        </div>
-        <button type="button" class="w-full rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow hover:bg-blue-500">Añadir al carrito</button>
       </form>
-      <section class="space-y-4">
-        <h2 class="text-lg font-semibold">Detalles</h2>
-        <ul class="list-disc space-y-2 pl-5 text-sm text-gray-600">
-          <li>Incluye base rígida para mantener la forma del ramo.</li>
-          <li>Tejido con algodón hipoalergénico y relleno reciclado.</li>
-          <li>Envío seguro en caja eco-friendly con tarjeta personalizada.</li>
+
+      <section class="space-y-4 rounded-[2.5rem] border border-rose-100 bg-white/90 p-6 shadow">
+        <h2 class="text-lg font-semibold text-rose-600">Detalles</h2>
+        <ul class="space-y-3 text-sm text-slate-600">
+          <li class="flex gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-rose-300"></span>
+            Incluye base firme para mantener la forma del ramo.
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-rose-300"></span>
+            Tejido con algodón hipoalergénico y relleno reciclado.
+          </li>
+          <li class="flex gap-3">
+            <span class="mt-1 h-1.5 w-1.5 rounded-full bg-rose-300"></span>
+            Entrega con packaging reutilizable y tarjeta personalizable.
+          </li>
         </ul>
       </section>
+
+      @if ($categorySlug)
+        <a href="{{ route('catalog', ['category' => $categorySlug]) }}" class="inline-flex items-center gap-2 rounded-full border border-rose-200 px-6 py-3 text-sm font-semibold text-rose-500 transition hover:border-rose-300 hover:bg-rose-50">Ver más en {{ Str::headline($product->category) }}</a>
+      @endif
     </div>
   </article>
+
+  @if (isset($relatedProducts) && $relatedProducts->isNotEmpty())
+    <section class="mt-16 space-y-6">
+      <h2 class="text-2xl font-semibold text-rose-700">También te pueden gustar</h2>
+      <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        @foreach ($relatedProducts as $related)
+          @php
+            $relatedImage = $related->primaryImage;
+          @endphp
+          <article class="group flex flex-col overflow-hidden rounded-[2rem] border border-rose-100 bg-white/85 p-5 shadow transition hover:-translate-y-1 hover:shadow-rose-200/60">
+            <div class="overflow-hidden rounded-xl border border-rose-100">
+              @if ($relatedImage?->url)
+                <img src="{{ $relatedImage->url }}" alt="{{ $related->name }}" class="h-44 w-full object-cover transition duration-500 group-hover:scale-105" />
+              @else
+                <div class="flex h-44 items-center justify-center bg-rose-50 text-2xl font-semibold text-rose-400">
+                  {{ Str::upper(Str::substr($related->name, 0, 1)) }}
+                </div>
+              @endif
+            </div>
+            <div class="mt-4 space-y-2">
+              <p class="text-xs uppercase tracking-[0.2em] text-rose-400">{{ $related->category ? Str::headline($related->category) : 'PolyCrochet' }}</p>
+              <h3 class="text-lg font-semibold text-rose-700">{{ $related->name }}</h3>
+              <span class="text-sm font-semibold text-rose-600">${{ number_format((float) $related->price, 0, ',', '.') }}</span>
+              <a href="{{ route('product.show', $related->slug) }}" class="inline-flex items-center gap-2 text-xs font-semibold uppercase tracking-[0.2em] text-rose-500 transition hover:text-rose-600">Ver detalle</a>
+            </div>
+          </article>
+        @endforeach
+      </div>
+    </section>
+  @endif
 @endsection

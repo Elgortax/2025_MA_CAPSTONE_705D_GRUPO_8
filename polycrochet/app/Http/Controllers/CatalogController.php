@@ -69,4 +69,29 @@ class CatalogController extends Controller
             'filters' => $filters,
         ]);
     }
+
+    /**
+     * Display a single product detail page.
+     */
+    public function show(Product $product)
+    {
+        abort_if(! $product->is_active, 404);
+
+        $product->load(['primaryImage', 'images', 'variants']);
+
+        $relatedProducts = Product::query()
+            ->active()
+            ->with('primaryImage')
+            ->where('id', '!=', $product->id)
+            ->when($product->category, function ($query) use ($product) {
+                $query->where('category', $product->category);
+            })
+            ->take(6)
+            ->get();
+
+        return view('pages.product', [
+            'product' => $product,
+            'relatedProducts' => $relatedProducts,
+        ]);
+    }
 }
