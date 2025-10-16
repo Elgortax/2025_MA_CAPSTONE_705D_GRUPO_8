@@ -84,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!floatingCart || !cartPanelItems) return;
 
     if (!summary.items.length) {
-      cartPanelItems.innerHTML = '<p class="text-sm text-slate-500">Tu carrito est\u00E1 vac\u00EDo.</p>';
+      cartPanelItems.innerHTML = '<p class="text-sm text-slate-500">Tu carrito está vacío.</p>';
     } else {
       cartPanelItems.innerHTML = summary.items.map(item => `
         <article class="rounded-2xl border border-rose-100 bg-white/90 p-4 shadow" data-cart-panel-item data-product-id="${item.id}">
@@ -268,6 +268,189 @@ document.addEventListener('DOMContentLoaded', () => {
         removeItem(productId);
       }
     });
+  }
+
+  const registerForm = document.querySelector('[data-register-form]');
+  if (registerForm) {
+    const submitButton = registerForm.querySelector('[data-register-submit]');
+    const firstNameInput = registerForm.querySelector('#first_name');
+    const lastNameInput = registerForm.querySelector('#last_name');
+    const emailInput = registerForm.querySelector('#email');
+    const phoneInput = registerForm.querySelector('[data-phone]');
+    const passwordInput = registerForm.querySelector('[data-password]');
+    const confirmationInput = registerForm.querySelector('[data-password-confirmation]');
+
+    const firstNameMessage = registerForm.querySelector('[data-first-name-error]');
+    const lastNameMessage = registerForm.querySelector('[data-last-name-error]');
+    const emailMessage = registerForm.querySelector('[data-email-error]');
+    const phoneMessage = registerForm.querySelector('[data-phone-error]');
+    const passwordLengthMessage = registerForm.querySelector('[data-password-length-error]');
+    const passwordMatchMessage = registerForm.querySelector('[data-password-match-error]');
+
+    const MIN_PASSWORD_LENGTH = 8;
+    const NAME_ALLOWED_CHARS = /[^a-zA-ZÁÉÍÓÚáéíóúÑñÜü\s'-]/g;
+    const NAME_VALIDATION_REGEX = /^[a-zA-ZÁÉÍÓÚáéíóúÑñÜü\s'-]+$/;
+    const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    const fieldErrors = {
+      firstName: false,
+      lastName: false,
+      email: false,
+      phone: false,
+      password: false,
+      passwordConfirmation: false,
+    };
+
+    const setInputErrorState = (input, hasError) => {
+      if (!input) return;
+      input.classList.toggle('border-rose-500', hasError);
+      input.classList.toggle('focus:border-rose-500', hasError);
+      input.classList.toggle('border-rose-200', !hasError);
+    };
+
+    const setMessageVisibility = (element, isVisible) => {
+      if (!element) return;
+      element.classList.toggle('hidden', !isVisible);
+    };
+
+    const toggleSubmitState = (hasErrors) => {
+      if (!submitButton) return;
+      submitButton.disabled = hasErrors;
+      submitButton.classList.toggle('opacity-70', hasErrors);
+      submitButton.classList.toggle('cursor-not-allowed', hasErrors);
+    };
+
+    const updateSubmitState = () => {
+      const hasErrors = Object.values(fieldErrors).some(Boolean);
+      toggleSubmitState(hasErrors);
+    };
+
+    const sanitizeName = (input) => {
+      if (!input) return '';
+      const sanitized = input.value.replace(NAME_ALLOWED_CHARS, '');
+      if (sanitized !== input.value) {
+        input.value = sanitized;
+      }
+      return sanitized.trim();
+    };
+
+    const updateNameFeedback = (input, messageElement, key, force = false) => {
+      if (!input) return false;
+      const value = sanitizeName(input);
+      const showError = value.length > 0
+        ? !NAME_VALIDATION_REGEX.test(value)
+        : force;
+
+      setInputErrorState(input, showError);
+      setMessageVisibility(messageElement, showError);
+      fieldErrors[key] = showError;
+      updateSubmitState();
+      return showError;
+    };
+
+    const updateEmailFeedback = (force = false) => {
+      if (!emailInput) return false;
+      const value = emailInput.value.trim();
+      const showError = value.length > 0
+        ? !EMAIL_REGEX.test(value)
+        : force;
+
+      setInputErrorState(emailInput, showError);
+      setMessageVisibility(emailMessage, showError);
+      fieldErrors.email = showError;
+      updateSubmitState();
+      return showError;
+    };
+
+    const updatePhoneFeedback = (force = false) => {
+      if (!phoneInput) return false;
+      const digits = (phoneInput.value ?? '').replace(/\D/g, '').slice(0, 9);
+      if (digits !== phoneInput.value) {
+        phoneInput.value = digits;
+      }
+
+      const showError = force
+        ? digits.length !== 9
+        : digits.length > 0 && digits.length !== 9;
+
+      setInputErrorState(phoneInput, showError);
+      setMessageVisibility(phoneMessage, showError);
+      fieldErrors.phone = showError;
+      updateSubmitState();
+      return showError;
+    };
+
+    const updatePasswordFeedback = (force = false) => {
+      const passwordValue = passwordInput?.value ?? '';
+      const confirmationValue = confirmationInput?.value ?? '';
+
+      const passwordTooShort = passwordValue.length < MIN_PASSWORD_LENGTH;
+      const showPasswordError = force ? passwordTooShort : passwordValue.length > 0 && passwordTooShort;
+
+      const confirmationMissing = confirmationValue.length === 0;
+      const passwordsDiffer = passwordValue !== confirmationValue;
+      const showConfirmationError = force ? (confirmationMissing || passwordsDiffer) : (!confirmationMissing && passwordsDiffer);
+
+      setInputErrorState(passwordInput, showPasswordError);
+      setMessageVisibility(passwordLengthMessage, showPasswordError);
+      fieldErrors.password = showPasswordError;
+
+      setInputErrorState(confirmationInput, showConfirmationError);
+      setMessageVisibility(passwordMatchMessage, showConfirmationError);
+      fieldErrors.passwordConfirmation = showConfirmationError;
+
+      updateSubmitState();
+      return showPasswordError || showConfirmationError;
+    };
+
+    registerForm.addEventListener('input', (event) => {
+      const target = event.target;
+
+      if (target === firstNameInput) {
+        updateNameFeedback(firstNameInput, firstNameMessage, 'firstName');
+      } else if (target === lastNameInput) {
+        updateNameFeedback(lastNameInput, lastNameMessage, 'lastName');
+      } else if (target === emailInput) {
+        updateEmailFeedback(false);
+      } else if (target === phoneInput) {
+        updatePhoneFeedback(false);
+      }
+
+      if (target === passwordInput || target === confirmationInput) {
+        updatePasswordFeedback(false);
+      }
+    });
+
+    registerForm.addEventListener('submit', (event) => {
+      const hasNameErrors = [
+        updateNameFeedback(firstNameInput, firstNameMessage, 'firstName', true),
+        updateNameFeedback(lastNameInput, lastNameMessage, 'lastName', true),
+      ].some(Boolean);
+
+      const hasEmailErrors = updateEmailFeedback(true);
+      const hasPhoneErrors = updatePhoneFeedback(true);
+      const hasPasswordErrors = updatePasswordFeedback(true);
+
+      if (hasNameErrors || hasEmailErrors || hasPhoneErrors || hasPasswordErrors) {
+        event.preventDefault();
+        const firstErrorField = [
+          firstNameInput,
+          lastNameInput,
+          emailInput,
+          phoneInput,
+          passwordInput,
+          confirmationInput,
+        ].find((input) => input && input.classList.contains('border-rose-500'));
+
+        firstErrorField?.focus();
+      }
+    });
+
+    updateNameFeedback(firstNameInput, firstNameMessage, 'firstName');
+    updateNameFeedback(lastNameInput, lastNameMessage, 'lastName');
+    updateEmailFeedback(false);
+    updatePhoneFeedback(false);
+    updatePasswordFeedback(false);
   }
 
   fetchSummary();

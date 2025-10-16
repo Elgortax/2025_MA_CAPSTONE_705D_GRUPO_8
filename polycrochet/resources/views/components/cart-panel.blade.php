@@ -17,7 +17,7 @@
         <p class="text-xs text-slate-500">Revisa tus productos antes de completar la compra.</p>
       </div>
       <button type="button" id="cart-close" class="text-rose-300 transition hover:text-rose-500" aria-label="Cerrar carrito">
-        <span aria-hidden="true">×</span>
+        <span aria-hidden="true">&times;</span>
       </button>
     </div>
 

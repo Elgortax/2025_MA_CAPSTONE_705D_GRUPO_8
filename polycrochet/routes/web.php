@@ -1,6 +1,14 @@
 <?php
 
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\Auth\EmailVerificationNotificationController;
+use App\Http\Controllers\Auth\EmailVerificationPromptController;
+use App\Http\Controllers\Auth\NewPasswordController;
+use App\Http\Controllers\Auth\PasswordResetLinkController;
+use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CartController;
 use Illuminate\Support\Facades\Route;
@@ -22,8 +30,37 @@ Route::view('/cuenta', 'pages.account')->name('account');
 Route::view('/perfil', 'pages.profile')->name('profile');
 Route::view('/nosotros', 'pages.nosotros')->name('nosotros');
 
-Route::prefix('admin')->name('admin.')->group(function () {
-    Route::view('/', 'admin.dashboard')->name('dashboard');
+Route::middleware('guest')->group(function () {
+    Route::get('/iniciar-sesion', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/iniciar-sesion', [AuthenticatedSessionController::class, 'store']);
+
+    Route::get('/registro', [RegisteredUserController::class, 'create'])->name('register');
+    Route::post('/registro', [RegisteredUserController::class, 'store']);
+
+    Route::get('/recuperar-contrasena', [PasswordResetLinkController::class, 'create'])->name('password.request');
+    Route::post('/recuperar-contrasena', [PasswordResetLinkController::class, 'store'])->name('password.email');
+
+    Route::get('/restablecer-contrasena/{token}', [NewPasswordController::class, 'create'])->name('password.reset');
+    Route::post('/restablecer-contrasena', [NewPasswordController::class, 'store'])->name('password.store');
+});
+
+Route::middleware('auth')->group(function () {
+    Route::get('/verificar-correo', EmailVerificationPromptController::class)->name('verification.notice');
+    Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+    Route::post('/email/verificacion', [EmailVerificationNotificationController::class, 'store'])
+        ->middleware('throttle:6,1')
+        ->name('verification.send');
+});
+
+Route::get('/verificar-correo/{id}/{hash}', VerifyEmailController::class)
+    ->middleware(['auth', 'signed', 'throttle:6,1'])
+    ->name('verification.verify');
+
+Route::prefix('admin')
+    ->name('admin.')
+    ->middleware(['auth', 'verified', 'admin'])
+    ->group(function () {
+    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('productos', AdminProductController::class)
         ->except(['show'])
         ->names([
@@ -34,6 +71,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
             'update' => 'products.update',
             'destroy' => 'products.destroy',
         ]);
+    Route::get('/reportes/ventas-semanales', [DashboardController::class, 'downloadWeeklySales'])->name('reports.weekly');
     Route::view('/pedidos', 'admin.orders.index')->name('orders');
     Route::view('/clientes', 'admin.customers.index')->name('customers');
     Route::view('/configuracion', 'admin.settings.index')->name('settings');

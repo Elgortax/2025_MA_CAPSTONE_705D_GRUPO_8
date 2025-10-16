@@ -12,10 +12,10 @@
       <div class="flex gap-3">
         <select class="rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500">
           <option value="">Estado</option>
-          <option value="pending">Pendiente</option>
-          <option value="paid">Pagado</option>
-          <option value="crafting">En confección</option>
-          <option value="shipped">Enviado</option>
+          <option value="pendiente">Pendiente</option>
+          <option value="pagado">Pagado</option>
+          <option value="en_produccion">En producción</option>
+          <option value="enviado">Enviado</option>
         </select>
         <input type="search" placeholder="Buscar pedido o cliente" class="w-56 rounded-lg border border-slate-700 bg-slate-900/80 px-3 py-2 text-xs text-slate-300 focus:border-blue-500 focus:outline-none focus:ring-1 focus:ring-blue-500" />
       </div>
@@ -23,7 +23,7 @@
 
     <div class="space-y-4">
       @foreach ([
-        ['PC-10294', 'Camila Rojas', '$47.990', 'Pagado', 'En confección'],
+        ['PC-10294', 'Camila Rojas', '$47.990', 'Pagado', 'En producción'],
         ['PC-10295', 'Luis Díaz', '$38.500', 'Pagado', 'Preparando envío'],
         ['PC-10296', 'Valentina Soto', '$15.900', 'Pendiente', 'Esperando pago']
       ] as $pedido)
@@ -31,7 +31,7 @@
           <div class="flex flex-wrap items-center justify-between gap-4">
             <div>
               <h2 class="text-lg font-semibold text-white">{{ $pedido[0] }}</h2>
-              <p class="text-xs text-slate-400">Cliente: {{ $pedido[1] }}  Monto: {{ $pedido[2] }}</p>
+              <p class="text-xs text-slate-400">Cliente: {{ $pedido[1] }} · Monto: {{ $pedido[2] }}</p>
             </div>
             <div class="flex gap-2 text-xs">
               <span class="rounded-full bg-emerald-500/10 px-2 py-0.5 font-semibold text-emerald-300">{{ $pedido[3] }}</span>
@@ -49,4 +49,4 @@
       @endforeach
     </div>
   </section>
-@endsection
+@endsection

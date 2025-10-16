@@ -1,0 +1,73 @@
+<?php
+
+namespace App\Exports;
+
+use App\Models\Order;
+use Illuminate\Support\Collection;
+use Illuminate\Support\Str;
+use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
+
+class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping
+{
+    /**
+     * @var array<int, \App\Models\Order>
+     */
+    protected Collection $orders;
+
+    public function __construct()
+    {
+        $paidStatuses = ['pagado', 'en_produccion', 'enviado'];
+
+        $this->orders = Order::query()
+            ->whereIn('status', $paidStatuses)
+            ->where('created_at', '>=', now()->subDays(7))
+            ->with(['user', 'items'])
+            ->orderByDesc('created_at')
+            ->get();
+    }
+
+    public function collection(): Collection
+    {
+        return $this->orders;
+    }
+
+    public function headings(): array
+    {
+        return [
+            'Fecha',
+            'Número de pedido',
+            'Cliente',
+            'Estado',
+            'Unidades',
+            'Total (CLP)',
+        ];
+    }
+
+    /**
+     * @param  \App\Models\Order  $order
+     */
+    public function map($order): array
+    {
+        $units = $order->items->sum('quantity');
+
+        $status = match ($order->status) {
+            'en_produccion' => 'En producción',
+            'enviado' => 'Enviado',
+            'pagado' => 'Pagado',
+            'pendiente' => 'Pendiente',
+            'cancelado' => 'Cancelado',
+            default => Str::headline($order->status),
+        };
+
+        return [
+            $order->created_at->translatedFormat('d/m/Y H:i'),
+            $order->order_number,
+            optional($order->user)->name ?? 'Invitado',
+            $status,
+            $units,
+            number_format((float) $order->total, 0, ',', '.'),
+        ];
+    }
+}

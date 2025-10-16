@@ -74,6 +74,14 @@ class Product extends Model
     }
 
     /**
+     * Relationship: order items that include this product.
+     */
+    public function orderItems(): HasMany
+    {
+        return $this->hasMany(OrderItem::class);
+    }
+
+    /**
      * Generate a slug from the product name when missing.
      */
     protected static function booted(): void

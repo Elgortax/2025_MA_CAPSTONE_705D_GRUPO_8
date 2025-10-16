@@ -10,7 +10,17 @@
         <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'text-rose-600' : 'hover:text-rose-500' }}">Inicio</a>
         <a href="{{ route('catalog') }}" class="{{ request()->routeIs('catalog') ? 'text-rose-600' : 'hover:text-rose-500' }}">Catálogo</a>
         <a href="{{ route('nosotros') }}" class="{{ request()->routeIs('nosotros') ? 'text-rose-600' : 'hover:text-rose-500' }}">Nosotros</a>
-        <a href="{{ route('account') }}" class="{{ request()->routeIs('account') ? 'text-rose-600' : 'hover:text-rose-500' }}">Cuenta</a>
+
+        @auth
+          <a href="{{ route('account') }}" class="{{ request()->routeIs('account') ? 'text-rose-600' : 'hover:text-rose-500' }}">Mi cuenta</a>
+          @if (auth()->user()->isAdmin())
+            <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.*') ? 'text-rose-600' : 'hover:text-rose-500' }}">Administración</a>
+          @endif
+        @else
+          <a href="{{ route('login') }}" class="{{ request()->routeIs('login') ? 'text-rose-600' : 'hover:text-rose-500' }}">Ingresar</a>
+          <a href="{{ route('register') }}" class="{{ request()->routeIs('register') ? 'text-rose-600' : 'hover:text-rose-500' }}">Crear cuenta</a>
+        @endauth
+
         <a href="{{ route('cart') }}" class="{{ request()->routeIs('cart') ? 'text-rose-600' : 'hover:text-rose-500' }}">Carrito</a>
       </nav>
 

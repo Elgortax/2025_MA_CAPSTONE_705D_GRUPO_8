@@ -78,8 +78,8 @@
               <h2 class="text-xl font-semibold text-rose-700">{{ $product->name }}</h2>
               <p class="text-sm text-slate-600">{{ $product->summary ?? Str::limit($product->description, 120) }}</p>
             </header>
-              <div class="mt-auto flex items-center justify-between gap-4">
-                <span class="text-lg font-semibold text-rose-600">${{ $price }}</span>
+            <div class="mt-auto flex flex-wrap items-center gap-3">
+              <span class="mr-auto text-lg font-semibold text-rose-600">${{ $price }}</span>
               <div class="flex flex-shrink-0 items-center gap-2">
                 <a href="{{ route('product.show', $product->slug) }}" class="inline-flex items-center gap-2 rounded-full border border-rose-200 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-rose-500 transition hover:border-rose-300 hover:text-rose-600">Ver detalle</a>
                 <form method="POST" action="{{ route('cart.store') }}" class="flex" data-add-to-cart-form>
@@ -106,4 +106,4 @@
       {{ $products->appends(request()->query())->links() }}
     </div>
   </section>
-@endsection
+@endsection

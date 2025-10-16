@@ -94,4 +94,4 @@
       <p class="text-xs text-slate-400">El total final se confirmará durante el pago en PayPal.</p>
     </aside>
   </section>
-@endsection
+@endsection
