@@ -453,5 +453,152 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePasswordFeedback(false);
   }
 
+  let cachedLocations = null;
+
+  const getLocationsDataset = () => {
+    if (cachedLocations !== null) {
+      return cachedLocations;
+    }
+
+    const script = document.getElementById('chile-locations');
+    if (!script) {
+      cachedLocations = [];
+      return cachedLocations;
+    }
+
+    try {
+      const parsed = JSON.parse(script.textContent ?? '[]');
+      cachedLocations = Array.isArray(parsed) ? parsed : [];
+    } catch (error) {
+      cachedLocations = [];
+    }
+
+    return cachedLocations;
+  };
+
+  const initAddressForm = (form, regions) => {
+    const regionSelect = form.querySelector('[data-region-select]');
+    const communeSelect = form.querySelector('[data-commune-select]');
+
+    if (!regionSelect || !communeSelect) {
+      return;
+    }
+
+    const renderPlaceholder = () => {
+      communeSelect.innerHTML = '';
+      const placeholder = document.createElement('option');
+      placeholder.value = '';
+      placeholder.textContent = 'Selecciona una comuna';
+      communeSelect.appendChild(placeholder);
+    };
+
+    const sortByName = (items) => {
+      return [...items].sort((a, b) => a.name.localeCompare(b.name, 'es'));
+    };
+
+    const fillCommunes = (regionId, selectedCommuneId = null) => {
+      renderPlaceholder();
+
+      if (!regionId) {
+        communeSelect.disabled = true;
+        return;
+      }
+
+      const region = regions.find((item) => String(item.id) === String(regionId));
+
+      if (!region || !Array.isArray(region.communes)) {
+        communeSelect.disabled = true;
+        return;
+      }
+
+      sortByName(region.communes).forEach((commune) => {
+        const option = document.createElement('option');
+        option.value = commune.id;
+        option.textContent = commune.name;
+        communeSelect.appendChild(option);
+      });
+
+      communeSelect.disabled = false;
+
+      if (selectedCommuneId && region.communes.some(
+        (commune) => String(commune.id) === String(selectedCommuneId)
+      )) {
+        communeSelect.value = String(selectedCommuneId);
+      } else {
+        communeSelect.value = '';
+      }
+    };
+
+    const defaultRegion = regionSelect.dataset.defaultValue || regionSelect.value || '';
+    const defaultCommune = communeSelect.dataset.defaultValue || communeSelect.value || '';
+
+    if (defaultRegion) {
+      regionSelect.value = String(defaultRegion);
+      fillCommunes(defaultRegion, defaultCommune);
+    } else {
+      renderPlaceholder();
+      communeSelect.disabled = true;
+    }
+
+    regionSelect.addEventListener('change', (event) => {
+      communeSelect.dataset.defaultValue = '';
+      fillCommunes(event.target.value);
+    });
+  };
+
+  const addressForms = document.querySelectorAll('[data-address-form]');
+  if (addressForms.length) {
+    const locations = getLocationsDataset();
+    addressForms.forEach((form) => initAddressForm(form, locations));
+  }
+
+  const addressEditors = document.querySelectorAll('[data-address-toggle]');
+  if (addressEditors.length) {
+    addressEditors.forEach((button) => {
+      const targetSelector = button.dataset.target;
+      if (!targetSelector) {
+        return;
+      }
+
+      const target = document.querySelector(targetSelector);
+      if (!target) {
+        return;
+      }
+
+      const openText = button.dataset.openText || button.textContent.trim();
+      const closeText = button.dataset.closeText || openText;
+      const focusable = target.querySelector('input, select, textarea');
+
+      const setState = (isOpen) => {
+        button.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+        button.textContent = isOpen ? closeText : openText;
+      };
+
+      const initiallyOpen = !target.classList.contains('hidden');
+      setState(initiallyOpen);
+
+      button.addEventListener('click', () => {
+        const isHidden = target.classList.toggle('hidden');
+        const isOpen = !isHidden;
+        setState(isOpen);
+        if (isOpen && focusable) {
+          focusable.focus();
+        }
+      });
+    });
+  }
+
+  const addressRadios = document.querySelectorAll('[data-address-radio]');
+  if (addressRadios.length) {
+    addressRadios.forEach((radio) => {
+      radio.addEventListener('change', () => {
+        const form = radio.closest('form');
+        if (form) {
+          form.submit();
+        }
+      });
+    });
+  }
+
   fetchSummary();
 });

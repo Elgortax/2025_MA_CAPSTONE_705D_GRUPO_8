@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -11,6 +12,8 @@ use App\Http\Controllers\Auth\RegisteredUserController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\UserAddressController;
 use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'pages.home')->name('home');
@@ -21,12 +24,12 @@ Route::post('/carrito', [CartController::class, 'store'])->name('cart.store');
 Route::patch('/carrito/{product}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/carrito/{product}', [CartController::class, 'destroy'])->name('cart.destroy');
 Route::get('/carrito/resumen', [CartController::class, 'summary'])->name('cart.summary');
-Route::view('/checkout', 'pages.checkout')->name('checkout');
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout');
 Route::view('/pago/exito', 'pages.paypal.success')->name('paypal.success');
 Route::view('/pago/cancelado', 'pages.paypal.cancel')->name('paypal.cancel');
 Route::view('/pago/error', 'pages.paypal.error')->name('paypal.error');
 Route::view('/pedido/confirmacion', 'pages.order-confirmation')->name('order.confirmation');
-Route::view('/cuenta', 'pages.account')->name('account');
+Route::get('/cuenta', [AccountController::class, 'index'])->name('account');
 Route::view('/perfil', 'pages.profile')->name('profile');
 Route::view('/nosotros', 'pages.nosotros')->name('nosotros');
 
@@ -50,6 +53,11 @@ Route::middleware('auth')->group(function () {
     Route::post('/email/verificacion', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+
+    Route::post('/direcciones', [UserAddressController::class, 'store'])->name('user-addresses.store');
+    Route::put('/direcciones/{userAddress}', [UserAddressController::class, 'update'])->name('user-addresses.update');
+    Route::patch('/direcciones/{userAddress}/predeterminada', [UserAddressController::class, 'setDefault'])->name('user-addresses.default');
+    Route::delete('/direcciones/{userAddress}', [UserAddressController::class, 'destroy'])->name('user-addresses.destroy');
 });
 
 Route::get('/verificar-correo/{id}/{hash}', VerifyEmailController::class)
