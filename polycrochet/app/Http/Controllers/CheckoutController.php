@@ -3,15 +3,27 @@
 namespace App\Http\Controllers;
 
 use App\Models\Region;
+use App\Support\CartManager;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
+    public function __construct(
+        protected CartManager $cart
+    ) {
+    }
+
     /**
      * Display the checkout page with the required location metadata.
      */
     public function index(Request $request)
     {
+        if ($this->cart->items()->isEmpty()) {
+            return redirect()
+                ->route('cart')
+                ->with('status', 'Tu carrito está vacío. Agrega productos antes de continuar al checkout.');
+        }
+
         $user = $request->user();
 
         $regions = Region::with([
@@ -37,6 +49,7 @@ class CheckoutController extends Controller
             'regions' => $regions,
             'address' => $address,
             'addresses' => $addresses,
+            'cartSummary' => $this->cart->summary(),
         ]);
     }
 }

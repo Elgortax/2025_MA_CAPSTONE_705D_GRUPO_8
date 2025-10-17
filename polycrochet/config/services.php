@@ -42,4 +42,13 @@ return [
         'public_url' => env('SUPABASE_PUBLIC_URL'),
     ],
 
+    'paypal' => [
+        'client_id' => env('PAYPAL_CLIENT_ID'),
+        'secret' => env('PAYPAL_SECRET'),
+        'base_uri' => env('PAYPAL_BASE_URI', 'https://api-m.sandbox.paypal.com'),
+        'webhook_id' => env('PAYPAL_WEBHOOK_ID'),
+        'currency' => env('PAYPAL_CURRENCY', 'USD'),
+        'conversion_rate' => env('PAYPAL_CONVERSION_RATE', 900),
+    ],
+
 ];

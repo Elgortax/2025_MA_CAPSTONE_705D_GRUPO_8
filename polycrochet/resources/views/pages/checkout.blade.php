@@ -4,15 +4,31 @@
 
 @section('content')
   @php
+    use Illuminate\Support\Str;
+
     $addressFormHasErrors = $errors->any() && old('redirect_to') === route('checkout');
     $formContext = old('form_context');
     $statusKey = session('status');
     $statusMessage = session('status_message');
-    $openEditorId = $addressFormHasErrors && $formContext && \Illuminate\Support\Str::startsWith($formContext, 'edit-')
-      ? (int) \Illuminate\Support\Str::after($formContext, 'edit-')
+    $openEditorId = $addressFormHasErrors && $formContext && Str::startsWith($formContext, 'edit-')
+      ? (int) Str::after($formContext, 'edit-')
       : null;
     $openCreateForm = $addressFormHasErrors && $formContext === 'create';
     $openCreateForm = $openCreateForm || ($addresses->isEmpty() && ! $address);
+
+    $statusDisplay = $statusMessage;
+    if (! $statusDisplay && $statusKey) {
+        $statusDisplay = match ($statusKey) {
+            'address-saved' => 'Dirección guardada correctamente.',
+            'address-default' => 'Dirección predeterminada actualizada.',
+            'address-deleted' => 'Dirección eliminada correctamente.',
+            default => $statusKey,
+        };
+    }
+    $statusClass = 'border-emerald-200 bg-emerald-50 text-emerald-700';
+    if ($statusKey === 'address-deleted' || ($statusKey && Str::contains(Str::lower($statusKey), 'cancel'))) {
+        $statusClass = 'border-amber-200 bg-amber-50 text-amber-700';
+    }
   @endphp
 
   <section class="space-y-8">
@@ -23,9 +39,9 @@
       </p>
     </header>
 
-    @if ($statusKey)
-      <div class="rounded-2xl border {{ $statusKey === 'address-deleted' ? 'border-amber-200 bg-amber-50 text-amber-700' : 'border-emerald-200 bg-emerald-50 text-emerald-700' }} px-4 py-3 text-sm shadow-sm">
-        {{ $statusMessage ?? 'Dirección actualizada correctamente.' }}
+    @if ($statusKey && $statusDisplay)
+      <div class="rounded-2xl border {{ $statusClass }} px-4 py-3 text-sm shadow-sm">
+        {{ $statusDisplay }}
       </div>
     @endif
 
@@ -208,45 +224,52 @@
           <p class="mt-2 text-sm text-slate-600">
             Te redirigiremos a la pasarela segura de PayPal. Al finalizar, volverás a PolyCrochet con la confirmación de tu pedido.
           </p>
-          <button type="button"
-                  class="mt-4 inline-flex w-full justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-blue-500">
-            Ir a PayPal
-          </button>
+          @auth
+            <form method="POST" action="{{ route('paypal.order.store') }}" class="mt-4">
+              @csrf
+              <button type="submit"
+                      class="inline-flex w-full justify-center rounded-full bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow transition hover:bg-blue-500 {{ $addresses->isEmpty() ? 'pointer-events-none opacity-60 hover:bg-blue-600' : '' }}">
+                Ir a PayPal
+              </button>
+            </form>
+            @if ($addresses->isEmpty())
+              <p class="mt-3 text-xs text-rose-500">Agrega primero una dirección para poder continuar con el pago.</p>
+            @endif
+          @else
+            <div class="mt-4 rounded-2xl border border-dashed border-rose-200 bg-rose-50/40 p-4 text-sm text-rose-600">
+              Inicia sesión para continuar al pago con PayPal.
+            </div>
+          @endauth
         </article>
       </div>
 
       <aside class="space-y-4 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
         <h2 class="text-lg font-semibold text-slate-900">Resumen de compra</h2>
         <ul class="space-y-3 text-sm text-slate-600">
-          @foreach ([
-            [
-              'name' => 'Ramo Animalitos – Gatito pastel',
-              'image' => 'resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg',
-              'price' => '$39.990',
-            ],
-            [
-              'name' => 'Set de girasoles con abejas',
-              'image' => 'resources/images/girasol/girasol_abejas.jpg',
-              'price' => '$22.900',
-            ],
-          ] as $summary)
+          @foreach (($cartSummary['items'] ?? []) as $summary)
             <li class="flex items-center gap-3">
-              <div class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border border-slate-100">
-                <img src="{{ Vite::asset($summary['image']) }}" alt="{{ $summary['name'] }}" class="h-full w-full object-cover">
+              <div class="h-12 w-12 flex-shrink-0 overflow-hidden rounded-lg border border-slate-100 bg-slate-50">
+                @if (! empty($summary['image']))
+                  <img src="{{ $summary['image'] }}" alt="{{ $summary['name'] }}" class="h-full w-full object-cover">
+                @else
+                  <span class="flex h-full items-center justify-center text-sm font-semibold text-slate-400">
+                    {{ mb_substr($summary['name'], 0, 1) }}
+                  </span>
+                @endif
               </div>
               <div class="flex flex-1 items-center justify-between">
                 <span class="text-sm font-medium text-slate-800">{{ $summary['name'] }}</span>
-                <span class="text-sm font-semibold text-slate-900">{{ $summary['price'] }}</span>
+                <span class="text-sm font-semibold text-slate-900">{{ $summary['subtotal_formatted'] }}</span>
               </div>
             </li>
           @endforeach
         </ul>
         <dl class="space-y-2 text-sm text-slate-600">
-          <div class="flex justify-between"><dt>Subtotal</dt><dd>$62.890</dd></div>
-          <div class="flex justify-between"><dt>Envío estimado</dt><dd>$4.500</dd></div>
-          <div class="flex justify-between font-semibold text-slate-900"><dt>Total</dt><dd>$67.390</dd></div>
+          <div class="flex justify-between"><dt>Subtotal</dt><dd>{{ $cartSummary['subtotal_formatted'] ?? '$0' }}</dd></div>
+          <div class="flex justify-between"><dt>Envío</dt><dd>$0</dd></div>
+          <div class="flex justify-between font-semibold text-slate-900"><dt>Total</dt><dd>{{ $cartSummary['total_formatted'] ?? '$0' }}</dd></div>
         </dl>
-        <p class="text-xs text-slate-400">Al continuar aceptas nuestras políticas y términos de compra.</p>
+        <p class="text-xs text-slate-400">Envío sin costo adicional. Al continuar aceptas nuestras políticas y términos de compra.</p>
       </aside>
     </div>
   </section>

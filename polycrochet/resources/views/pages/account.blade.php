@@ -19,15 +19,17 @@
 
     <section class="grid gap-10 lg:grid-cols-[1.4fr,1fr]">
       <article class="space-y-6 rounded-[2.5rem] border border-rose-100 bg-white/95 p-8 shadow-xl shadow-rose-100/60">
-        @if ($statusKey)
-          <div class="rounded-2xl border {{ $statusKey === 'address-deleted' ? 'border-amber-200 bg-amber-50 text-amber-700' : 'border-emerald-200 bg-emerald-50 text-emerald-700' }} px-4 py-3 text-sm shadow-sm">
-            {{ $statusMessage ?? 'Operación realizada correctamente.' }}
-          </div>
-        @elseif ($showAddressErrors)
-          <div class="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600 shadow-sm">
-            Revisa los campos marcados en tu dirección antes de continuar.
-          </div>
-        @endif
+        @unless (auth()->user()->isAdmin())
+          @if ($statusKey)
+            <div class="rounded-2xl border {{ $statusKey === 'address-deleted' ? 'border-amber-200 bg-amber-50 text-amber-700' : 'border-emerald-200 bg-emerald-50 text-emerald-700' }} px-4 py-3 text-sm shadow-sm">
+              {{ $statusMessage ?? 'Operación realizada correctamente.' }}
+            </div>
+          @elseif ($showAddressErrors)
+            <div class="rounded-2xl border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-600 shadow-sm">
+              Revisa los campos marcados en tu dirección antes de continuar.
+            </div>
+          @endif
+        @endunless
 
         <header class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
           <div>
@@ -56,7 +58,8 @@
           </div>
         </dl>
 
-        <section class="rounded-2xl border border-rose-100 bg-white/95 p-6 shadow-sm shadow-rose-100/50">
+        @unless (auth()->user()->isAdmin())
+          <section class="rounded-2xl border border-rose-100 bg-white/95 p-6 shadow-sm shadow-rose-100/50">
           <header class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 class="text-lg font-semibold text-rose-700">Dirección de envío</h2>
@@ -191,7 +194,8 @@
               class="grid gap-4 sm:grid-cols-2"
             />
           </div>
-        </section>
+          </section>
+        @endunless
 
         <div class="flex flex-wrap items-center gap-3">
           @if (! auth()->user()->hasVerifiedEmail())
@@ -222,11 +226,13 @@
       <aside class="space-y-5 rounded-[2.5rem] border border-rose-100 bg-white/95 p-6 shadow-lg shadow-rose-100/60">
         <h2 class="text-lg font-semibold text-rose-600">Atajos</h2>
         <div class="grid gap-4 text-sm text-slate-600">
-          <a href="{{ route('cart') }}"
-             class="flex items-center justify-between rounded-2xl border border-rose-100 bg-white/95 px-4 py-3 transition hover:border-rose-300 hover:text-rose-600">
-            <span>Seguir mis pedidos</span>
-            <span class="text-xs uppercase tracking-[0.25em] text-rose-400">Carrito</span>
-          </a>
+          @unless (auth()->user()->isAdmin())
+            <a href="{{ route('cart') }}"
+               class="flex items-center justify-between rounded-2xl border border-rose-100 bg-white/95 px-4 py-3 transition hover:border-rose-300 hover:text-rose-600">
+              <span>Seguir mis pedidos</span>
+              <span class="text-xs uppercase tracking-[0.25em] text-rose-400">Carrito</span>
+            </a>
+          @endunless
           @if (auth()->user()->isAdmin())
             <a href="{{ route('admin.dashboard') }}"
                class="flex items-center justify-between rounded-2xl border border-rose-100 bg-white/95 px-4 py-3 transition hover:border-rose-300 hover:text-rose-600">

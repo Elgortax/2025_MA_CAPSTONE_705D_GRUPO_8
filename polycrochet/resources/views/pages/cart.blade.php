@@ -89,7 +89,7 @@
         </div>
       </dl>
       <a href="{{ route('checkout') }}" class="inline-flex w-full justify-center rounded-full bg-gradient-to-r from-rose-400 to-amber-300 px-6 py-3 text-sm font-semibold text-white shadow shadow-rose-200/50 transition hover:from-rose-500 hover:to-amber-400 {{ $items->isEmpty() ? 'pointer-events-none opacity-50' : '' }}">
-        Proceder al checkout
+        Proceder al pago
       </a>
       <p class="text-xs text-slate-400">El total final se confirmará durante el pago en PayPal.</p>
     </aside>
