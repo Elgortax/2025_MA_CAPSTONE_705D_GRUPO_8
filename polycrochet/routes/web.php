@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AccountController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
+use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
@@ -84,8 +86,15 @@ Route::prefix('admin')
             'update' => 'products.update',
             'destroy' => 'products.destroy',
         ]);
+    Route::get('/reportes/ventas-mensuales', [DashboardController::class, 'downloadMonthlySales'])->name('reports.monthly');
     Route::get('/reportes/ventas-semanales', [DashboardController::class, 'downloadWeeklySales'])->name('reports.weekly');
-    Route::view('/pedidos', 'admin.orders.index')->name('orders');
-    Route::view('/clientes', 'admin.customers.index')->name('customers');
+    Route::get('/reportes/ventas-categorias', [DashboardController::class, 'downloadCategorySales'])->name('reports.categories');
+    Route::get('/reportes/ventas-productos', [DashboardController::class, 'downloadProductSales'])->name('reports.products');
+    Route::get('/pedidos', [AdminOrderController::class, 'index'])->name('orders.index');
+    Route::get('/pedidos/{order}', [AdminOrderController::class, 'show'])->name('orders.show');
+    Route::patch('/pedidos/{order}/estado', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
+    Route::post('/pedidos/{order}/notas', [AdminOrderController::class, 'storeNote'])->name('orders.notes.store');
+    Route::delete('/pedidos/{order}/notas/{note}', [AdminOrderController::class, 'destroyNote'])->name('orders.notes.destroy');
+    Route::get('/clientes', [AdminCustomerController::class, 'index'])->name('customers.index');
     Route::view('/configuracion', 'admin.settings.index')->name('settings');
 });
