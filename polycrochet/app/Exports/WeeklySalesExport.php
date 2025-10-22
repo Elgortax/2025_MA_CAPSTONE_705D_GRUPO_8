@@ -6,10 +6,11 @@ use App\Models\Order;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping
+class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
 {
     /**
      * @var array<int, \App\Models\Order>
@@ -18,7 +19,7 @@ class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping
 
     public function __construct()
     {
-        $paidStatuses = ['pagado', 'en_produccion', 'enviado'];
+        $paidStatuses = ['pagado', 'en_produccion', 'enviado', 'entregado'];
 
         $this->orders = Order::query()
             ->whereIn('status', $paidStatuses)
@@ -58,6 +59,7 @@ class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping
             'pagado' => 'Pagado',
             'pendiente' => 'Pendiente',
             'cancelado' => 'Cancelado',
+            'entregado' => 'Entregado',
             default => Str::headline($order->status),
         };
 
@@ -67,7 +69,14 @@ class WeeklySalesExport implements FromCollection, WithHeadings, WithMapping
             optional($order->user)->name ?? 'Invitado',
             $status,
             $units,
-            number_format((float) $order->total, 0, ',', '.'),
+            (int) round((float) $order->total),
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'F' => '#,##0',
         ];
     }
 }

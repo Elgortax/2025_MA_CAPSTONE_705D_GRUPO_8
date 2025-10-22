@@ -13,6 +13,9 @@
 
         @auth
           <a href="{{ route('account') }}" class="{{ request()->routeIs('account') ? 'text-rose-600' : 'hover:text-rose-500' }}">Mi cuenta</a>
+          @if (! auth()->user()->isAdmin())
+            <a href="{{ route('orders.history') }}" class="{{ request()->routeIs('orders.history') || request()->routeIs('orders.history.show') ? 'text-rose-600' : 'hover:text-rose-500' }}">Mis pedidos</a>
+          @endif
           @if (auth()->user()->isAdmin())
             <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.*') ? 'text-rose-600' : 'hover:text-rose-500' }}">Administración</a>
           @endif

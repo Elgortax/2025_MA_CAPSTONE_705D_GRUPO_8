@@ -5,12 +5,24 @@
 @section('content')
   <section class="grid gap-6 lg:grid-cols-[1.6fr,1fr]">
     <article class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/70 p-6">
+      @php
+        $statusStyles = [
+          'pendiente' => 'border-amber-400/30 bg-amber-400/10 text-amber-200',
+          'pagado' => 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
+          'en_produccion' => 'border-blue-400/30 bg-blue-400/10 text-blue-200',
+          'enviado' => 'border-sky-400/30 bg-sky-400/10 text-sky-200',
+          'entregado' => 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
+          'cancelado' => 'border-rose-400/30 bg-rose-400/10 text-rose-200',
+        ];
+        $statusBadgeClass = $statusStyles[$order->status] ?? 'border-slate-700 bg-slate-800/60 text-slate-200';
+      @endphp
+
       <header class="flex flex-wrap items-start justify-between gap-4">
         <div>
           <h1 class="text-2xl font-semibold text-white">Pedido {{ $order->order_number }}</h1>
           <p class="mt-1 text-sm text-slate-400">Creado {{ $order->created_at->translatedFormat('d \\d\\e F Y H:i') }}</p>
         </div>
-        <span class="rounded-full border px-2 py-0.5 text-xs font-semibold {{ $order->status === 'pagado' ? 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200' : ($order->status === 'en_produccion' ? 'border-blue-400/30 bg-blue-400/10 text-blue-200' : ($order->status === 'enviado' ? 'border-sky-400/30 bg-sky-400/10 text-sky-200' : ($order->status === 'cancelado' ? 'border-rose-400/30 bg-rose-400/10 text-rose-200' : 'border-amber-400/30 bg-amber-400/10 text-amber-200'))) }}">
+        <span class="rounded-full border px-2 py-0.5 text-xs font-semibold {{ $statusBadgeClass }}">
           {{ $order->status_label }}
         </span>
       </header>

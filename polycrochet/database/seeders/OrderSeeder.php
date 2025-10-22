@@ -37,6 +37,7 @@ class OrderSeeder extends Seeder
             'pagado',
             'en_produccion',
             'enviado',
+            'entregado',
             'cancelado',
         ];
 
@@ -55,10 +56,10 @@ class OrderSeeder extends Seeder
                     'shipping_total' => $shippingCost,
                     'total' => 0,
                     'currency' => 'CLP',
-                    'paid_at' => in_array($selectedStatus, ['pagado', 'en_produccion', 'enviado'], true)
+                    'paid_at' => in_array($selectedStatus, ['pagado', 'en_produccion', 'enviado', 'entregado'], true)
                         ? now()->subDays(fake()->numberBetween(1, 30))
                         : null,
-                    'shipped_at' => $selectedStatus === 'enviado'
+                    'shipped_at' => in_array($selectedStatus, ['enviado', 'entregado'], true)
                         ? now()->subDays(fake()->numberBetween(1, 15))
                         : null,
                     'billing_data' => null,

@@ -64,6 +64,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/direcciones/{userAddress}/predeterminada', [UserAddressController::class, 'setDefault'])->name('user-addresses.default');
     Route::delete('/direcciones/{userAddress}', [UserAddressController::class, 'destroy'])->name('user-addresses.destroy');
 
+    Route::get('/mis-pedidos', [OrderController::class, 'history'])->name('orders.history');
+    Route::get('/mis-pedidos/{order:uuid}', [OrderController::class, 'historyShow'])->name('orders.history.show');
+
     Route::get('/pedido/confirmacion/{order:uuid}', [OrderController::class, 'show'])->name('order.confirmation');
 });
 

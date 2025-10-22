@@ -7,10 +7,11 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class CategorySalesExport implements FromCollection, WithHeadings, WithMapping
+class CategorySalesExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
 {
     /**
      * @var \Illuminate\Support\Collection<int, array<string, mixed>>
@@ -66,7 +67,14 @@ class CategorySalesExport implements FromCollection, WithHeadings, WithMapping
         return [
             $row['category'],
             $row['units'],
-            number_format($row['total'], 0, ',', '.'),
+            (int) round($row['total']),
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'C' => '#,##0',
         ];
     }
 }

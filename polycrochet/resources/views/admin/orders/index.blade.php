@@ -43,6 +43,7 @@
           'pagado' => 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
           'en_produccion' => 'border-blue-400/30 bg-blue-400/10 text-blue-200',
           'enviado' => 'border-sky-400/30 bg-sky-400/10 text-sky-200',
+          'entregado' => 'border-emerald-400/30 bg-emerald-400/10 text-emerald-200',
           'cancelado' => 'border-rose-400/30 bg-rose-400/10 text-rose-200',
         ];
       @endphp

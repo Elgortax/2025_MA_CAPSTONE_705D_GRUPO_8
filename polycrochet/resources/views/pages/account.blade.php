@@ -227,10 +227,10 @@
         <h2 class="text-lg font-semibold text-rose-600">Atajos</h2>
         <div class="grid gap-4 text-sm text-slate-600">
           @unless (auth()->user()->isAdmin())
-            <a href="{{ route('cart') }}"
+            <a href="{{ route('orders.history') }}"
                class="flex items-center justify-between rounded-2xl border border-rose-100 bg-white/95 px-4 py-3 transition hover:border-rose-300 hover:text-rose-600">
-              <span>Seguir mis pedidos</span>
-              <span class="text-xs uppercase tracking-[0.25em] text-rose-400">Carrito</span>
+              <span>Ver historial de pedidos</span>
+              <span class="text-xs uppercase tracking-[0.25em] text-rose-400">Mis pedidos</span>
             </a>
           @endunless
           @if (auth()->user()->isAdmin())

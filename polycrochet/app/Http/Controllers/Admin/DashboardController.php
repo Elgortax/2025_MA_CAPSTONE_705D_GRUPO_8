@@ -16,7 +16,7 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
-    private const REPORT_STATUSES = ['pagado', 'en_produccion', 'enviado'];
+    private const REPORT_STATUSES = ['pagado', 'en_produccion', 'enviado', 'entregado'];
 
     /**
      * Display analytics for the admin dashboard.

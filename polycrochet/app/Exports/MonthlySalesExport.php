@@ -7,10 +7,11 @@ use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Str;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class MonthlySalesExport implements FromCollection, WithHeadings, WithMapping
+class MonthlySalesExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
 {
     /**
      * @var array<int, \App\Models\Order>
@@ -60,6 +61,7 @@ class MonthlySalesExport implements FromCollection, WithHeadings, WithMapping
             'pagado' => 'Pagado',
             'pendiente' => 'Pendiente',
             'cancelado' => 'Cancelado',
+            'entregado' => 'Entregado',
             default => Str::headline($order->status),
         };
 
@@ -69,7 +71,14 @@ class MonthlySalesExport implements FromCollection, WithHeadings, WithMapping
             optional($order->user)->name ?? 'Invitado',
             $status,
             $units,
-            number_format((float) $order->total, 0, ',', '.'),
+            (int) round((float) $order->total),
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'F' => '#,##0',
         ];
     }
 }

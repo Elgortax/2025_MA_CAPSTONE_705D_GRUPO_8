@@ -18,6 +18,7 @@ class Order extends Model
     public const STATUS_PAID = 'pagado';
     public const STATUS_IN_PRODUCTION = 'en_produccion';
     public const STATUS_SHIPPED = 'enviado';
+    public const STATUS_DELIVERED = 'entregado';
     public const STATUS_CANCELLED = 'cancelado';
 
     public const STATUSES = [
@@ -25,6 +26,7 @@ class Order extends Model
         self::STATUS_PAID => 'Pagado',
         self::STATUS_IN_PRODUCTION => 'En producción',
         self::STATUS_SHIPPED => 'Enviado',
+        self::STATUS_DELIVERED => 'Entregado',
         self::STATUS_CANCELLED => 'Cancelado',
     ];
 
@@ -127,11 +129,14 @@ class Order extends Model
             $attributes['paid_at'] = now();
         }
 
-        if ($validStatus === self::STATUS_SHIPPED) {
-            $attributes['shipped_at'] = $attributes['shipped_at'] ?? now();
+        if ($validStatus === self::STATUS_SHIPPED && ! $this->shipped_at) {
+            $attributes['shipped_at'] = now();
+        }
+
+        if ($validStatus === self::STATUS_DELIVERED && ! $this->shipped_at) {
+            $attributes['shipped_at'] = now();
         }
 
         $this->fill($attributes)->save();
     }
 }
-

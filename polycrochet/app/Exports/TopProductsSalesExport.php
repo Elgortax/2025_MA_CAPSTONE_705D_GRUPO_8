@@ -4,12 +4,13 @@ namespace App\Exports;
 
 use Carbon\CarbonInterface;
 use Illuminate\Support\Collection;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades.DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithColumnFormatting;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 use Maatwebsite\Excel\Concerns\WithMapping;
 
-class TopProductsSalesExport implements FromCollection, WithHeadings, WithMapping
+class TopProductsSalesExport implements FromCollection, WithHeadings, WithMapping, WithColumnFormatting
 {
     /**
      * @var \Illuminate\Support\Collection<int, array<string, mixed>>
@@ -62,7 +63,14 @@ class TopProductsSalesExport implements FromCollection, WithHeadings, WithMappin
             $row['name'],
             $row['sku'],
             $row['units'],
-            number_format($row['total'], 0, ',', '.'),
+            (int) round($row['total']),
+        ];
+    }
+
+    public function columnFormats(): array
+    {
+        return [
+            'D' => '#,##0',
         ];
     }
 }
