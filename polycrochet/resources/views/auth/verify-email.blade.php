@@ -5,7 +5,8 @@
   <section class="mx-auto max-w-lg rounded-[2.5rem] border border-rose-100 bg-white/95 p-10 text-center shadow-2xl shadow-rose-100/50">
     <h1 class="text-2xl font-semibold text-rose-700">Confirma tu correo electrónico</h1>
     <p class="mt-3 text-sm text-slate-500">
-      Te enviamos un enlace a <strong>{{ auth()->user()->email }}</strong>. Haz clic en el botón de verificación dentro de tu bandeja de entrada para activar tu cuenta.
+      Te enviamos un enlace a <strong>{{ auth()->user()->email }}</strong>. Haz clic en el botón de verificación enviado a tu bandeja de entrada para activar tu cuenta.
+      En caso de no visualizar el correo, te recomendamos revisar la carpeta de spam o correo no deseado.
     </p>
 
     @if (session('status') === 'verification-link-sent')

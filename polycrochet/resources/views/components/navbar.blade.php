@@ -1,9 +1,9 @@
-<header class="fixed inset-x-0 top-0 z-50">
+﻿<header class="fixed inset-x-0 top-0 z-50">
   <div class="mx-auto w-full max-w-7xl px-4 pt-6 sm:px-6 lg:px-10">
     <div class="flex items-center justify-between rounded-full border border-rose-100/70 bg-white/90 px-4 py-3 shadow-lg shadow-rose-200/50 backdrop-blur">
       <a href="{{ route('home') }}" class="flex items-center gap-3 text-lg font-semibold text-rose-700">
-        <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-rose-300 via-rose-400 to-amber-300 text-base font-bold text-white shadow-lg shadow-rose-200/60">PC</span>
-        <span class="hidden text-base font-semibold tracking-tight sm:inline">PolyCrochet Studio</span>
+        <img src="{{ asset('img/logo.png') }}" alt="PolyCrochet" class="h-10 w-10 rounded-full border border-rose-100 bg-white object-cover p-1 shadow-inner shadow-rose-100" loading="lazy">
+        <span class="hidden text-base font-semibold tracking-tight sm:inline">PolyCrochet</span>
       </a>
 
       <nav class="hidden items-center gap-8 text-sm font-medium uppercase tracking-[0.18em] text-slate-500 lg:flex">

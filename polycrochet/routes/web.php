@@ -56,6 +56,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/email/verificacion', [EmailVerificationNotificationController::class, 'store'])
         ->middleware('throttle:6,1')
         ->name('verification.send');
+    Route::view('/verificacion-exitosa', 'auth.verify-success')->name('verification.success');
 
     Route::post('/checkout/pago', [PayPalController::class, 'store'])->name('paypal.order.store');
     Route::get('/pago/exito/{order:uuid}', [PayPalController::class, 'success'])->name('paypal.success');

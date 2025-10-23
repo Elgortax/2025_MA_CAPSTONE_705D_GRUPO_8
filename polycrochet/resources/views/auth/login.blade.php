@@ -1,4 +1,4 @@
-@extends('layouts.app')
+﻿@extends('layouts.app')
 @section('title', 'Iniciar sesión | PolyCrochet')
 
 @section('content')
@@ -31,7 +31,20 @@
 
       <div>
         <label for="password" class="text-xs font-semibold uppercase tracking-[0.28em] text-rose-400">Contraseña</label>
-        <input id="password" name="password" type="password" required class="mt-2 w-full rounded-full border border-rose-200 bg-white/95 px-4 py-2 text-sm text-slate-600 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300" autocomplete="current-password" />
+        <div class="relative mt-2">
+          <input id="password" name="password" type="password" required class="w-full rounded-full border border-rose-200 bg-white/95 px-4 py-2 pr-12 text-sm text-slate-600 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300" autocomplete="current-password" />
+          <button
+            type="button"
+            class="absolute inset-y-0 right-3 flex items-center justify-center rounded-full bg-white/0 p-2 text-slate-400 transition hover:text-rose-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-400"
+            data-password-toggle="#password"
+            data-password-label-show="Mostrar contraseña"
+            data-password-label-hide="Ocultar contraseña"
+          >
+            <img src="{{ asset('img/visible.png') }}" alt="" class="h-4 w-4" data-password-icon="show">
+            <img src="{{ asset('img/hide.png') }}" alt="" class="hidden h-4 w-4" data-password-icon="hide">
+            <span class="sr-only" data-password-live-label>Mostrar contraseña</span>
+          </button>
+        </div>
       </div>
 
       <div class="flex items-center justify-between text-sm text-slate-500">

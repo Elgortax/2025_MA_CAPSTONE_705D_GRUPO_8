@@ -12,6 +12,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const cartCount = document.getElementById('cart-count');
   const cartPage = document.querySelector('[data-cart-page]');
 
+  const PASSWORD_RULE_TESTS = {
+    length: (value) => value.length >= 8 && value.length <= 20,
+    uppercase: (value) => /\p{Lu}/u.test(value),
+    lowercase: (value) => /\p{Ll}/u.test(value),
+    number: (value) => /\d/.test(value),
+    symbol: (value) => /[\W_]/.test(value),
+  };
+
   const state = {
     summary: null,
   };
@@ -67,6 +75,58 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(timer);
       timer = setTimeout(() => fn(...args), delay);
     };
+  };
+
+  const initPasswordVisibilityToggles = () => {
+    const toggles = document.querySelectorAll('[data-password-toggle]');
+    toggles.forEach((button) => {
+      const targetSelector = button.dataset.passwordToggle;
+      if (!targetSelector) {
+        return;
+      }
+
+      const scope = button.closest('form') ?? document;
+      let input = scope.querySelector(targetSelector);
+      if (!(input instanceof HTMLInputElement)) {
+        const globalInput = document.querySelector(targetSelector);
+        input = globalInput instanceof HTMLInputElement ? globalInput : null;
+      }
+
+      if (!(input instanceof HTMLInputElement)) {
+        return;
+      }
+
+      const showIcon = button.querySelector('[data-password-icon="show"]');
+      const hideIcon = button.querySelector('[data-password-icon="hide"]');
+      const liveLabel = button.querySelector('[data-password-live-label]');
+      const labelShow = button.dataset.passwordLabelShow || 'Mostrar contraseña';
+      const labelHide = button.dataset.passwordLabelHide || 'Ocultar contraseña';
+
+      const applyState = () => {
+        const isHidden = input.type === 'password';
+        if (showIcon) showIcon.classList.toggle('hidden', !isHidden);
+        if (hideIcon) hideIcon.classList.toggle('hidden', isHidden);
+        button.setAttribute('aria-pressed', isHidden ? 'false' : 'true');
+        button.setAttribute('aria-label', isHidden ? labelShow : labelHide);
+        if (liveLabel) {
+          liveLabel.textContent = isHidden ? labelShow : labelHide;
+        }
+      };
+
+      button.addEventListener('click', () => {
+        const { selectionStart, selectionEnd } = input;
+        input.type = input.type === 'password' ? 'text' : 'password';
+        applyState();
+        input.focus({ preventScroll: true });
+        if (typeof selectionStart === 'number' && typeof selectionEnd === 'number') {
+          requestAnimationFrame(() => {
+            input.setSelectionRange(selectionStart, selectionEnd);
+          });
+        }
+      });
+
+      applyState();
+    });
   };
 
   const updateInterfaces = (summary) => {
@@ -284,14 +344,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const lastNameMessage = registerForm.querySelector('[data-last-name-error]');
     const emailMessage = registerForm.querySelector('[data-email-error]');
     const phoneMessage = registerForm.querySelector('[data-phone-error]');
-    const passwordLengthMessage = registerForm.querySelector('[data-password-length-error]');
     const passwordMatchMessage = registerForm.querySelector('[data-password-match-error]');
+    const passwordRuleItems = {
+      length: registerForm.querySelector('[data-password-rule="length"]'),
+      uppercase: registerForm.querySelector('[data-password-rule="uppercase"]'),
+      lowercase: registerForm.querySelector('[data-password-rule="lowercase"]'),
+      number: registerForm.querySelector('[data-password-rule="number"]'),
+      symbol: registerForm.querySelector('[data-password-rule="symbol"]'),
+    };
 
-    const MIN_PASSWORD_LENGTH = 8;
-    const NAME_ALLOWED_CHARS = /[^a-zA-ZÁÉÍÓÚáéíóúÑñÜü\s'-]/g;
-    const NAME_VALIDATION_REGEX = /^[a-zA-ZÁÉÍÓÚáéíóúÑñÜü\s'-]+$/;
+    const NAME_ALLOWED_CHARS = /[^\p{L}\s'-]/gu;
+    const NAME_VALIDATION_REGEX = /^[\p{L}\s'-]+$/u;
     const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
     const fieldErrors = {
       firstName: false,
       lastName: false,
@@ -380,29 +444,56 @@ document.addEventListener('DOMContentLoaded', () => {
       return showError;
     };
 
-    const updatePasswordFeedback = (force = false) => {
-      const passwordValue = passwordInput?.value ?? '';
-      const confirmationValue = confirmationInput?.value ?? '';
-
-      const passwordTooShort = passwordValue.length < MIN_PASSWORD_LENGTH;
-      const showPasswordError = force ? passwordTooShort : passwordValue.length > 0 && passwordTooShort;
-
-      const confirmationMissing = confirmationValue.length === 0;
-      const passwordsDiffer = passwordValue !== confirmationValue;
-      const showConfirmationError = force ? (confirmationMissing || passwordsDiffer) : (!confirmationMissing && passwordsDiffer);
-
-      setInputErrorState(passwordInput, showPasswordError);
-      setMessageVisibility(passwordLengthMessage, showPasswordError);
-      fieldErrors.password = showPasswordError;
-
-      setInputErrorState(confirmationInput, showConfirmationError);
-      setMessageVisibility(passwordMatchMessage, showConfirmationError);
-      fieldErrors.passwordConfirmation = showConfirmationError;
-
-      updateSubmitState();
-      return showPasswordError || showConfirmationError;
+    const setPasswordRuleState = (rule, passed) => {
+      const item = passwordRuleItems[rule];
+      if (!item) return;
+      item.classList.toggle('text-emerald-600', passed);
+      item.classList.toggle('text-slate-500', !passed);
+      const indicator = item.querySelector('[data-password-indicator]');
+      if (indicator) {
+        indicator.textContent = passed ? '✔' : '';
+        indicator.classList.toggle('bg-emerald-500', passed);
+        indicator.classList.toggle('border-emerald-500', passed);
+        indicator.classList.toggle('border-slate-300', !passed);
+      }
     };
 
+    const evaluatePasswordRules = (value) => {
+      return Object.fromEntries(Object.entries(PASSWORD_RULE_TESTS).map(([rule, test]) => [rule, test(value)]));
+    };
+
+    const updatePasswordStrength = (force = false) => {
+      if (!passwordInput) return false;
+      const value = passwordInput.value ?? '';
+      const checks = evaluatePasswordRules(value);
+      Object.entries(checks).forEach(([rule, passed]) => setPasswordRuleState(rule, passed));
+      const hasInvalidRules = Object.values(checks).some((passed) => !passed);
+      const showError = force ? hasInvalidRules : (value.length > 0 && hasInvalidRules);
+      setInputErrorState(passwordInput, showError);
+      fieldErrors.password = showError;
+      updateSubmitState();
+      return showError;
+    };
+
+    const updatePasswordMatch = (force = false) => {
+      if (!confirmationInput) return false;
+      const passwordValue = passwordInput?.value ?? '';
+      const confirmationValue = confirmationInput.value ?? '';
+      const confirmationMissing = confirmationValue.length === 0;
+      const passwordsDiffer = passwordValue !== confirmationValue;
+      const showError = force ? (confirmationMissing || passwordsDiffer) : (!confirmationMissing && passwordsDiffer);
+      setInputErrorState(confirmationInput, showError);
+      setMessageVisibility(passwordMatchMessage, showError);
+      fieldErrors.passwordConfirmation = showError;
+      updateSubmitState();
+      return showError;
+    };
+
+    const updatePasswordFeedback = (force = false) => {
+      const strengthError = updatePasswordStrength(force);
+      const confirmationError = updatePasswordMatch(force);
+      return strengthError || confirmationError;
+    };
     registerForm.addEventListener('input', (event) => {
       const target = event.target;
 
@@ -452,6 +543,88 @@ document.addEventListener('DOMContentLoaded', () => {
     updatePhoneFeedback(false);
     updatePasswordFeedback(false);
   }
+
+  const standalonePasswordForms = document.querySelectorAll('[data-password-form]:not([data-register-form])');
+  standalonePasswordForms.forEach((form) => {
+    const passwordInput = form.querySelector('[data-password]');
+    if (!passwordInput) return;
+    const confirmationInput = form.querySelector('[data-password-confirmation]');
+    const matchMessage = form.querySelector('[data-password-match-error]');
+    const ruleItems = {
+      length: form.querySelector('[data-password-rule="length"]'),
+      uppercase: form.querySelector('[data-password-rule="uppercase"]'),
+      lowercase: form.querySelector('[data-password-rule="lowercase"]'),
+      number: form.querySelector('[data-password-rule="number"]'),
+      symbol: form.querySelector('[data-password-rule="symbol"]'),
+    };
+
+    const setInputError = (input, hasError) => {
+      if (!input) return;
+      input.classList.toggle('border-rose-500', hasError);
+      input.classList.toggle('focus:border-rose-500', hasError);
+      input.classList.toggle('border-rose-200', !hasError);
+    };
+
+    const setVisibility = (element, visible) => {
+      if (!element) return;
+      element.classList.toggle('hidden', !visible);
+    };
+
+    const setRuleState = (rule, passed) => {
+      const item = ruleItems[rule];
+      if (!item) return;
+      item.classList.toggle('text-emerald-600', passed);
+      item.classList.toggle('text-slate-500', !passed);
+      const indicator = item.querySelector('[data-password-indicator]');
+      if (indicator) {
+        indicator.textContent = passed ? '✔' : '';
+        indicator.classList.toggle('bg-emerald-500', passed);
+        indicator.classList.toggle('border-emerald-500', passed);
+        indicator.classList.toggle('border-slate-300', !passed);
+      }
+    };
+
+    const updateStrength = (force = false) => {
+      const value = passwordInput.value ?? '';
+      const checks = Object.fromEntries(Object.entries(PASSWORD_RULE_TESTS).map(([rule, test]) => [rule, test(value)]));
+      Object.entries(checks).forEach(([rule, passed]) => setRuleState(rule, passed));
+      const hasInvalidRules = Object.values(checks).some((passed) => !passed);
+      const showError = force ? hasInvalidRules : (value.length > 0 && hasInvalidRules);
+      setInputError(passwordInput, showError);
+      return showError;
+    };
+
+    const updateMatch = (force = false) => {
+      if (!confirmationInput) return false;
+      const passwordValue = passwordInput.value ?? '';
+      const confirmationValue = confirmationInput.value ?? '';
+      const confirmationMissing = confirmationValue.length === 0;
+      const passwordsDiffer = passwordValue !== confirmationValue;
+      const showError = force ? (confirmationMissing || passwordsDiffer) : (!confirmationMissing && passwordsDiffer);
+      setInputError(confirmationInput, showError);
+      setVisibility(matchMessage, showError);
+      return showError;
+    };
+
+    const updateFormPassword = (force = false) => {
+      const strengthError = updateStrength(force);
+      const matchError = updateMatch(force);
+      return strengthError || matchError;
+    };
+
+    passwordInput.addEventListener('input', () => updateFormPassword(false));
+    passwordInput.addEventListener('blur', () => updateFormPassword(false));
+    confirmationInput?.addEventListener('input', () => updateFormPassword(false));
+
+    form.addEventListener('submit', (event) => {
+      if (updateFormPassword(true)) {
+        event.preventDefault();
+        (passwordInput.classList.contains('border-rose-500') ? passwordInput : confirmationInput)?.focus();
+      }
+    });
+
+    updateFormPassword(false);
+  });
 
   let cachedLocations = null;
 
@@ -600,5 +773,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  initPasswordVisibilityToggles();
   fetchSummary();
 });

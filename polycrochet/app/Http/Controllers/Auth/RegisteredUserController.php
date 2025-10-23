@@ -8,7 +8,6 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\View\View;
 
 class RegisteredUserController extends Controller
@@ -32,17 +31,17 @@ class RegisteredUserController extends Controller
                 'last_name' => ['required', 'string', 'max:255', 'regex:/^[\p{L}\s\'-]+$/u'],
                 'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
                 'phone' => ['required', 'digits:9'],
-                'password' => ['required', 'confirmed', Password::defaults()],
+                'password' => ['required', 'string', 'min:8', 'max:20', 'regex:/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[\W_]).+$/', 'confirmed'],
             ],
             [
                 'first_name.required' => 'El nombre es obligatorio.',
                 'first_name.string' => 'Ingresa un nombre válido.',
                 'first_name.max' => 'El nombre no puede tener más de 255 caracteres.',
-                'first_name.regex' => 'El nombre solo puede contener letras y espacios.',
+                'first_name.regex' => 'El nombre solo puede contener letras, espacios, apóstrofes y guiones.',
                 'last_name.required' => 'El apellido es obligatorio.',
                 'last_name.string' => 'Ingresa un apellido válido.',
                 'last_name.max' => 'El apellido no puede tener más de 255 caracteres.',
-                'last_name.regex' => 'El apellido solo puede contener letras y espacios.',
+                'last_name.regex' => 'El apellido solo puede contener letras, espacios, apóstrofes y guiones.',
                 'email.required' => 'El correo electrónico es obligatorio.',
                 'email.email' => 'Ingresa un correo electrónico válido.',
                 'email.unique' => 'Ya existe una cuenta registrada con este correo electrónico.',
@@ -51,11 +50,8 @@ class RegisteredUserController extends Controller
                 'password.required' => 'La contraseña es obligatoria.',
                 'password.confirmed' => 'Las contraseñas no coinciden.',
                 'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
-                'password.letters' => 'La contraseña debe incluir al menos una letra.',
-                'password.mixed' => 'La contraseña debe incluir letras mayúsculas y minúsculas.',
-                'password.numbers' => 'La contraseña debe incluir al menos un número.',
-                'password.symbols' => 'La contraseña debe incluir al menos un símbolo.',
-                'password.uncompromised' => 'La contraseña ingresada aparece en filtraciones conocidas. Intenta con otra distinta.',
+                'password.max' => 'La contraseña no puede superar los 20 caracteres.',
+                'password.regex' => 'La contraseña debe incluir al menos una mayúscula, una minúscula, un número y un símbolo.',
             ],
             [
                 'first_name' => 'nombre',
