@@ -32,11 +32,11 @@
           <div class="absolute -left-12 top-10 hidden h-24 w-24 rounded-full bg-rose-200/50 blur-3xl lg:block"></div>
           <div class="absolute -right-10 bottom-10 hidden h-24 w-24 rounded-full bg-emerald-100/60 blur-3xl lg:block"></div>
           <div class="aspect-[4/5] overflow-hidden rounded-[3rem] border border-rose-100 shadow-2xl shadow-rose-100/50">
-            <img src="{{ Vite::asset('resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg') }}" alt="Ramo crochet con gatito" class="h-full w-full object-cover" />
+            <img src="{{ asset('img/imagen 11.png') }}" alt="Arreglo destacado PolyCrochet" class="h-full w-full object-cover" />
           </div>
           <div class="absolute -bottom-10 left-1/2 w-[18rem] -translate-x-1/2 rounded-3xl border border-rose-100 bg-white/95 p-5 shadow-lg shadow-rose-100/50">
-            <p class="text-sm font-semibold text-rose-600">Colección Animalitos</p>
-            <p class="mt-2 text-xs text-slate-500">Bouquets con personajes que cuentan historias: gatitos, nutrias y pollitos soñadores.</p>
+            <p class="text-sm font-semibold text-rose-600">Colección Ramos</p>
+            <p class="mt-2 text-xs text-slate-500">Ramos personalizados con diferentes tipos de flores, únicos e inigualables</p>
           </div>
         </div>
       </div>
@@ -57,25 +57,25 @@
           [
             'title' => 'Ramos temáticos',
             'description' => 'Gatitos, abejas o nutrias: arma combinaciones únicas con mensajes tejidos.',
-            'image' => 'resources/images/ramos/ramo_pollo/girasol_pollo/ramo_pollito.jpg',
+            'image' => asset('img/imagen 15.png'),
             'tag' => 'Más pedido',
           ],
           [
             'title' => 'Flores personalizables',
             'description' => 'Elige tonos y tamaños para crear arreglos que nunca se marchitan.',
-            'image' => 'resources/images/duo/duo_rosa.jpg',
+            'image' => asset('img/imagen 25.png'),
             'tag' => 'A tu medida',
           ],
           [
             'title' => 'Amigurumis con historia',
             'description' => 'Personajes tejidos a mano inspirados en tus momentos favoritos.',
-            'image' => 'resources/images/animales/abejas.png',
+            'image' => Vite::asset('resources/images/animales/abejas.png'),
             'tag' => 'Nuevo',
           ],
         ] as $collection)
           <article class="group relative overflow-hidden rounded-3xl border border-rose-100 bg-white/90 p-6 shadow-lg shadow-rose-100/40 transition hover:-translate-y-1 hover:shadow-rose-200/70">
             <div class="relative overflow-hidden rounded-2xl border border-rose-100">
-              <img src="{{ Vite::asset($collection['image']) }}" alt="{{ $collection['title'] }}" class="h-48 w-full rounded-2xl object-cover transition duration-500 group-hover:scale-105" />
+              <img src="{{ $collection['image'] }}" alt="{{ $collection['title'] }}" class="h-48 w-full rounded-2xl object-cover transition duration-500 group-hover:scale-105" />
             </div>
             <div class="relative mt-6 space-y-3">
               <span class="inline-flex items-center rounded-full border border-rose-200 px-3 py-1 text-[11px] font-semibold uppercase tracking-[0.25em] text-rose-500">{{ $collection['tag'] }}</span>
@@ -97,4 +97,5 @@
       </div>
     </section>
   </section>
-@endsection
+@endsection
+
