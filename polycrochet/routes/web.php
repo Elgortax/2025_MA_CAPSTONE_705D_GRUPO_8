@@ -15,6 +15,7 @@ use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
+use App\Http\Controllers\ContactController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PayPalController;
 use App\Http\Controllers\UserAddressController;
@@ -33,6 +34,7 @@ Route::get('/pago/error', [PayPalController::class, 'error'])->name('paypal.erro
 Route::get('/cuenta', [AccountController::class, 'index'])->name('account');
 Route::view('/perfil', 'pages.profile')->name('profile');
 Route::view('/nosotros', 'pages.nosotros')->name('nosotros');
+Route::post('/contacto', [ContactController::class, 'store'])->name('contact.store');
 
 Route::middleware('guest')->group(function () {
     Route::get('/iniciar-sesion', [AuthenticatedSessionController::class, 'create'])->name('login');

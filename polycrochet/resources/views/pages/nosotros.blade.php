@@ -34,28 +34,72 @@
       </div>
       <div id="contacto" class="space-y-5">
         <h2 class="text-2xl font-semibold text-rose-700">Conversemos tu idea</h2>
-        <p class="text-sm text-slate-600 sm:text-base">¿Tienes un pedido personalizado o necesitas ayuda? Escríbenos y diseñemos juntas una pieza inolvidable.</p>
+        <p class="text-sm text-slate-600 sm:text-base">¿Tienes un pedido personalizado o necesitas ayuda? Escríbenos y diseñemos junt@s una pieza inolvidable.</p>
+
+        @if (session('contact.status'))
+          <div class="rounded-3xl border border-emerald-200 bg-emerald-50 px-6 py-3 text-sm font-semibold text-emerald-700 shadow">
+            {{ session('contact.status') }}
+          </div>
+        @endif
+
+        @if ($errors->any())
+          <div class="rounded-3xl border border-rose-200 bg-rose-50 px-6 py-4 text-sm text-rose-700 shadow">
+            <p class="font-semibold">Revisa la información ingresada:</p>
+            <ul class="mt-2 list-disc space-y-1 pl-5">
+              @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+              @endforeach
+            </ul>
+          </div>
+        @endif
 
         <ul class="space-y-2 text-sm text-slate-600">
-          <li><strong>Correo:</strong> <a href="mailto:polycrochet19@gmail.com" class="text-rose-500 hover:text-rose-600">polycrochet19@gmail.com</a></li>
+          <li><strong>Correo:</strong> <a href="mailto:contacto@polycrochet.cl" class="text-rose-500 hover:text-rose-600">contacto@polycrochet.cl</a></li>
           <li><strong>Teléfono:</strong> <a href="tel:+56959307085" class="text-rose-500 hover:text-rose-600">+56 9 5930 7085</a></li>
           <li><strong>Instagram:</strong> <a href="https://www.instagram.com/polycrochet_1975?igsh=MTRtZThpOWt5bGp4NQ==" class="text-rose-500 hover:text-rose-600" target="_blank" rel="noopener">@polycrochet_1975</a></li>
         </ul>
 
-        <form class="grid gap-4 rounded-3xl border border-rose-100 bg-white/90 p-6 shadow-lg shadow-rose-100/40">
+        <form action="{{ route('contact.store') }}" method="POST" class="grid gap-4 rounded-3xl border border-rose-100 bg-white/90 p-6 shadow-lg shadow-rose-100/40">
+          @csrf
           <label class="text-sm font-medium text-rose-600">Nombre
-            <input type="text" class="mt-1 w-full rounded-full border border-rose-200 px-4 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300" placeholder="Tu nombre" />
+            <input
+              type="text"
+              name="name"
+              value="{{ old('name') }}"
+              required
+              class="mt-1 w-full rounded-full border border-rose-200 px-4 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300"
+              placeholder="Tu nombre" />
+            @error('name')
+              <span class="mt-1 block text-xs text-rose-500">{{ $message }}</span>
+            @enderror
           </label>
 
           <label class="text-sm font-medium text-rose-600">Correo
-            <input type="email" class="mt-1 w-full rounded-full border border-rose-200 px-4 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300" placeholder="tu@correo.cl" />
+            <input
+              type="email"
+              name="email"
+              value="{{ old('email') }}"
+              required
+              class="mt-1 w-full rounded-full border border-rose-200 px-4 py-2 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300"
+              placeholder="tu@correo.cl" />
+            @error('email')
+              <span class="mt-1 block text-xs text-rose-500">{{ $message }}</span>
+            @enderror
           </label>
 
           <label class="text-sm font-medium text-rose-600">Mensaje
-            <textarea rows="4" class="mt-1 w-full rounded-3xl border border-rose-200 px-4 py-3 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300" placeholder="Cuéntanos qué necesitas"></textarea>
+            <textarea
+              rows="4"
+              name="message"
+              required
+              class="mt-1 w-full rounded-3xl border border-rose-200 px-4 py-3 text-sm text-slate-700 focus:border-rose-400 focus:outline-none focus:ring-1 focus:ring-rose-300"
+              placeholder="Cuéntanos qué necesitas">{{ old('message') }}</textarea>
+            @error('message')
+              <span class="mt-1 block text-xs text-rose-500">{{ $message }}</span>
+            @enderror
           </label>
 
-          <button type="button" class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-rose-400 to-amber-300 px-6 py-3 text-sm font-semibold text-white shadow shadow-rose-200/50 transition hover:from-rose-500 hover:to-amber-400">Enviar mensaje</button>
+          <button type="submit" class="inline-flex items-center justify-center rounded-full bg-gradient-to-r from-rose-400 to-amber-300 px-6 py-3 text-sm font-semibold text-white shadow shadow-rose-200/50 transition hover:from-rose-500 hover:to-amber-400">Enviar mensaje</button>
         </form>
       </div>
     </section>

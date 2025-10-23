@@ -11,7 +11,7 @@
       <div class="space-y-2">
         <div>
           <p class="text-xs uppercase tracking-[0.18em] text-slate-400">Correo</p>
-          <a href="mailto:polycrochet19@gmail.com" class="font-medium text-rose-500 hover:text-rose-600">polycrochet19@gmail.com</a>
+          <a href="mailto:soporte@polycrochet.cl" class="font-medium text-rose-500 hover:text-rose-600">soporte@polycrochet.cl</a>
         </div>
         <div>
           <p class="text-xs uppercase tracking-[0.18em] text-slate-400">Teléfono</p>

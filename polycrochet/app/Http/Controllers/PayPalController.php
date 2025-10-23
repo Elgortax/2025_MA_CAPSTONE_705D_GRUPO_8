@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\Orders\OrderConfirmationCustomerMail;
+use App\Mail\Orders\OrderConfirmationNotificationMail;
 use App\Models\Order;
 use App\Services\Payments\PayPalService;
 use App\Support\CartManager;
@@ -11,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
 use Throwable;
@@ -194,6 +197,8 @@ class PayPalController extends Controller
 
             $this->cart->clear();
 
+            $this->sendOrderEmails($order);
+
             return redirect()
                 ->route('order.confirmation', ['order' => $order->uuid])
                 ->with('status', 'Pago confirmado correctamente.');
@@ -250,5 +255,34 @@ class PayPalController extends Controller
         $random = strtoupper(Str::random(5));
 
         return "{$prefix}-{$sequence}-{$random}";
+    }
+
+    /**
+     * Send confirmation emails to the customer and PolyCrochet team.
+     */
+    protected function sendOrderEmails(Order $order): void
+    {
+        $customerEmail = $order->billing_data['email'] ?? $order->user?->email;
+
+        if ($customerEmail) {
+            rescue(function () use ($order, $customerEmail) {
+                Mail::to($customerEmail)->send(new OrderConfirmationCustomerMail($order));
+            }, report: false);
+        }
+
+        $notificationsAddress = config('services.mail.notifications');
+
+        if ($notificationsAddress) {
+            rescue(function () use ($order, $notificationsAddress) {
+                $mailer = Mail::to($notificationsAddress);
+
+                $supportAddress = config('services.mail.support');
+                if ($supportAddress && $supportAddress !== $notificationsAddress) {
+                    $mailer->cc($supportAddress);
+                }
+
+                $mailer->send(new OrderConfirmationNotificationMail($order));
+            }, report: false);
+        }
     }
 }

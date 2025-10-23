@@ -51,4 +51,10 @@ return [
         'conversion_rate' => env('PAYPAL_CONVERSION_RATE', 900),
     ],
 
+    'mail' => [
+        'notifications' => env('MAIL_NOTIFICATIONS_ADDRESS', env('MAIL_FROM_ADDRESS')),
+        'contact' => env('MAIL_CONTACT_ADDRESS', env('MAIL_FROM_ADDRESS')),
+        'support' => env('MAIL_SUPPORT_ADDRESS', env('MAIL_FROM_ADDRESS')),
+    ],
+
 ];
