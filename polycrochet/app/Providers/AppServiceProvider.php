@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Support\SettingsStore;
 use Carbon\Carbon;
+use Throwable;
 use Illuminate\Filesystem\FilesystemAdapter;
 use Illuminate\Filesystem\FilesystemManager;
 use Illuminate\Filesystem\FlysystemAdapter;
@@ -29,7 +30,7 @@ class AppServiceProvider extends ServiceProvider
     {
         Carbon::setLocale(config('app.locale', 'es'));
 
-        if (Schema::hasTable('settings')) {
+        if ($this->settingsTableExists()) {
             /** @var SettingsStore $settings */
             $settings = app(SettingsStore::class);
 
@@ -72,5 +73,17 @@ class AppServiceProvider extends ServiceProvider
                 $config
             );
         });
+    }
+
+    /**
+     * Determine if the settings table can be checked safely.
+     */
+    protected function settingsTableExists(): bool
+    {
+        try {
+            return Schema::hasTable('settings');
+        } catch (Throwable) {
+            return false;
+        }
     }
 }
