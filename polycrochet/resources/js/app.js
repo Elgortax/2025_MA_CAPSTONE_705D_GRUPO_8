@@ -77,6 +77,42 @@ document.addEventListener('DOMContentLoaded', () => {
     };
   };
 
+  const initMobileMenu = () => {
+    const menu = document.querySelector('[data-mobile-menu]');
+    const toggle = document.querySelector('[data-mobile-menu-toggle]');
+    if (!menu || !toggle) return;
+
+    const closeElements = menu.querySelectorAll('[data-mobile-menu-close]');
+    const setState = (isOpen) => {
+      menu.classList.toggle('hidden', !isOpen);
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    };
+
+    const openMenu = () => setState(true);
+    const closeMenu = () => setState(false);
+
+    toggle.addEventListener('click', () => {
+      const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+      setState(!isOpen);
+    });
+
+    closeElements.forEach((element) => {
+      element.addEventListener('click', () => closeMenu());
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape') {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener('click', (event) => {
+      if (!menu.contains(event.target) && !toggle.contains(event.target)) {
+        closeMenu();
+      }
+    });
+  };
+
   const initPasswordVisibilityToggles = () => {
     const toggles = document.querySelectorAll('[data-password-toggle]');
     toggles.forEach((button) => {
@@ -773,6 +809,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  initMobileMenu();
   initPasswordVisibilityToggles();
   fetchSummary();
 });
