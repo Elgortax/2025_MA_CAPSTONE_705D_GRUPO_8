@@ -69,11 +69,32 @@ class CartManager
     }
 
     /**
-     * Total amount (subtotal + shipping, currently no shipping cost).
+     * Base shipping cost configured for the store.
+     */
+    public function shipping(): float
+    {
+        if ($this->items()->isEmpty()) {
+            return 0.0;
+        }
+
+        /** @var \App\Support\SettingsStore $settings */
+        $settings = app(SettingsStore::class);
+
+        $rate = (float) ($settings->get('shipping.rate', 0) ?? 0);
+
+        return max(0, $rate);
+    }
+
+    /**
+     * Total amount (subtotal + shipping).
      */
     public function total(): float
     {
-        return $this->subtotal();
+        if ($this->items()->isEmpty()) {
+            return 0.0;
+        }
+
+        return $this->subtotal() + $this->shipping();
     }
 
     /**
@@ -91,6 +112,7 @@ class CartManager
     {
         $items = $this->items();
         $subtotal = $this->subtotal();
+        $shipping = $this->shipping();
         $total = $this->total();
 
         return [
@@ -113,6 +135,8 @@ class CartManager
             })->values(),
             'subtotal' => $subtotal,
             'subtotal_formatted' => $this->formatAmount($subtotal),
+            'shipping' => $shipping,
+            'shipping_formatted' => $this->formatAmount($shipping),
             'total' => $total,
             'total_formatted' => $this->formatAmount($total),
             'count' => $this->count(),

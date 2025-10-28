@@ -266,10 +266,12 @@
         </ul>
         <dl class="space-y-2 text-sm text-slate-600">
           <div class="flex justify-between"><dt>Subtotal</dt><dd>{{ $cartSummary['subtotal_formatted'] ?? '$0' }}</dd></div>
-          <div class="flex justify-between"><dt>Envío</dt><dd>$0</dd></div>
+          <div class="flex justify-between"><dt>Envío</dt><dd>{{ $cartSummary['shipping_formatted'] ?? '$0' }}</dd></div>
           <div class="flex justify-between font-semibold text-slate-900"><dt>Total</dt><dd>{{ $cartSummary['total_formatted'] ?? '$0' }}</dd></div>
         </dl>
-        <p class="text-xs text-slate-400">Envío sin costo adicional. Al continuar aceptas nuestras políticas y términos de compra.</p>
+        <p class="text-xs text-slate-400">
+          Envío principal: {{ $shippingMethod }}. Al continuar aceptas nuestras políticas y términos de compra.
+        </p>
       </aside>
     </div>
   </section>

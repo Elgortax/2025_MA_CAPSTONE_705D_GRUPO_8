@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\CustomerController as AdminCustomerController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\SettingsController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\Auth\EmailVerificationNotificationController;
 use App\Http\Controllers\Auth\EmailVerificationPromptController;
@@ -102,5 +103,6 @@ Route::prefix('admin')
     Route::post('/pedidos/{order}/notas', [AdminOrderController::class, 'storeNote'])->name('orders.notes.store');
     Route::delete('/pedidos/{order}/notas/{note}', [AdminOrderController::class, 'destroyNote'])->name('orders.notes.destroy');
     Route::get('/clientes', [AdminCustomerController::class, 'index'])->name('customers.index');
-    Route::view('/configuracion', 'admin.settings.index')->name('settings');
+    Route::get('/configuracion', [SettingsController::class, 'edit'])->name('settings.edit');
+    Route::put('/configuracion', [SettingsController::class, 'update'])->name('settings.update');
 });

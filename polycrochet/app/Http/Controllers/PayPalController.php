@@ -7,6 +7,7 @@ use App\Mail\Orders\OrderConfirmationNotificationMail;
 use App\Models\Order;
 use App\Services\Payments\PayPalService;
 use App\Support\CartManager;
+use App\Support\SettingsStore;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -16,8 +17,8 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
 use Illuminate\View\View;
-use Throwable;
 use RuntimeException;
+use Throwable;
 
 class PayPalController extends Controller
 {
@@ -55,7 +56,11 @@ class PayPalController extends Controller
         try {
             $order = DB::transaction(function () use ($user, $address, $cartItems, $request) {
                 $itemsTotal = $cartItems->sum('subtotal');
-                $shippingTotal = 0;
+
+                /** @var SettingsStore $settings */
+                $settings = app(SettingsStore::class);
+                $shippingMethod = $settings->get('shipping.method', 'Chilexpress');
+                $shippingTotal = $this->cart->shipping();
                 $total = $itemsTotal + $shippingTotal;
 
                 $shippingData = [
@@ -70,6 +75,7 @@ class PayPalController extends Controller
                     'commune' => $address->commune?->name,
                     'region' => $address->region?->name,
                     'country' => 'CL',
+                    'method' => $shippingMethod,
                 ];
 
                 $order = Order::create([
@@ -89,6 +95,7 @@ class PayPalController extends Controller
                     'metadata' => [
                         'user_agent' => $request->userAgent(),
                         'ip' => $request->ip(),
+                        'shipping_method' => $shippingMethod,
                     ],
                 ]);
 
@@ -130,34 +137,21 @@ class PayPalController extends Controller
             Arr::set($metadata, 'paypal.currency', config('services.paypal.currency', 'USD'));
             Arr::set($metadata, 'paypal.conversion_rate', config('services.paypal.conversion_rate', 900));
 
-            $order->update(['metadata' => $metadata]);
+            $order->update([
+                'metadata' => $metadata,
+            ]);
 
             return redirect()->away($approvalLink);
-        } catch (RequestException $exception) {
-            Log::error('Error comunicándose con PayPal', [
-                'exception' => $exception->getMessage(),
-                'response' => optional($exception->response)->json(),
-            ]);
-
-            if ($order) {
-                $order->delete();
-            }
-
-            return redirect()
-                ->route('paypal.error')
-                ->with('status', 'No pudimos iniciar el pago con PayPal. Inténtalo nuevamente en unos minutos.');
         } catch (Throwable $exception) {
-            Log::error('Error al preparar la orden para PayPal', [
-                'exception' => $exception->getMessage(),
-            ]);
-
             if ($order) {
-                $order->delete();
+                $order->update(['status' => 'fallido']);
             }
+
+            report($exception);
 
             return redirect()
                 ->route('paypal.error')
-                ->with('status', 'Ocurrió un problema al preparar tu pedido. Inténtalo nuevamente.');
+                ->with('status', 'Ocurrió un problema al iniciar el pago. Intenta nuevamente en unos minutos.');
         }
     }
 

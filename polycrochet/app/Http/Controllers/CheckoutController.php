@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\Region;
 use App\Support\CartManager;
+use App\Support\SettingsStore;
 use Illuminate\Http\Request;
 
 class CheckoutController extends Controller
 {
     public function __construct(
-        protected CartManager $cart
+        protected CartManager $cart,
+        protected SettingsStore $settings
     ) {
     }
 
@@ -50,6 +52,7 @@ class CheckoutController extends Controller
             'address' => $address,
             'addresses' => $addresses,
             'cartSummary' => $this->cart->summary(),
+            'shippingMethod' => $this->settings->get('shipping.method', 'Chilexpress'),
         ]);
     }
 }
