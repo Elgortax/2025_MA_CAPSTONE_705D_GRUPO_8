@@ -1,5 +1,12 @@
 import './bootstrap';
 
+/**
+ * Ensure Vite includes all static images referenced from Blade templates.
+ * Without this, files like resources/images/animales/abejas.png won't land
+ * in the manifest and Vite::asset() will fail on production.
+ */
+import.meta.glob(['../images/**']);
+
 document.addEventListener('DOMContentLoaded', () => {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
   const floatingCart = document.getElementById('floating-cart');
