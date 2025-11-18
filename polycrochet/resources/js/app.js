@@ -1,4 +1,5 @@
 import './bootstrap';
+import '../css/app.css';
 
 /**
  * Ensure Vite includes all static images referenced from Blade templates.
