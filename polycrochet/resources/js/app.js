@@ -2,10 +2,10 @@ import './bootstrap';
 
 /**
  * Ensure Vite includes all static images referenced from Blade templates.
- * Without this, files like resources/images/animales/abejas.png won't land
- * in the manifest and Vite::asset() will fail on production.
+ * Assign the glob result so it isn't tree-shaken away during build.
  */
-import.meta.glob(['../images/**']);
+const staticImages = import.meta.glob(['../images/**'], { eager: true });
+void staticImages;
 
 document.addEventListener('DOMContentLoaded', () => {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
