@@ -1,0 +1,279 @@
+{
+  "resources/css/app.css": {
+    "file": "assets/app-DSx1oK-9.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/images/animales/abejas.png": {
+    "file": "assets/abejas-BkxzrRf4.png",
+    "src": "resources/images/animales/abejas.png"
+  },
+  "resources/images/animales/buho.png": {
+    "file": "assets/buho-BbucdNAN.png",
+    "src": "resources/images/animales/buho.png"
+  },
+  "resources/images/animales/monos.png": {
+    "file": "assets/monos-CrSVoE8i.png",
+    "src": "resources/images/animales/monos.png"
+  },
+  "resources/images/animales/nutrias.png": {
+    "file": "assets/nutrias-GM6foHEz.png",
+    "src": "resources/images/animales/nutrias.png"
+  },
+  "resources/images/animales/pollito.png": {
+    "file": "assets/pollito-kN5VGVKa.png",
+    "src": "resources/images/animales/pollito.png"
+  },
+  "resources/images/animales/pollitos.png": {
+    "file": "assets/pollitos-DK4oO13e.png",
+    "src": "resources/images/animales/pollitos.png"
+  },
+  "resources/images/duo/duo_amarillo.jpg": {
+    "file": "assets/duo_amarillo-BsjDfUSH.jpg",
+    "src": "resources/images/duo/duo_amarillo.jpg"
+  },
+  "resources/images/duo/duo_azul_blanco.jpg": {
+    "file": "assets/duo_azul_blanco-DSHZOKsx.jpg",
+    "src": "resources/images/duo/duo_azul_blanco.jpg"
+  },
+  "resources/images/duo/duo_blanco_Amarillo.jpg": {
+    "file": "assets/duo_blanco_Amarillo-CEoVBx6i.jpg",
+    "src": "resources/images/duo/duo_blanco_Amarillo.jpg"
+  },
+  "resources/images/duo/duo_rojo_blanco.jpg": {
+    "file": "assets/duo_rojo_blanco-Bvoteh15.jpg",
+    "src": "resources/images/duo/duo_rojo_blanco.jpg"
+  },
+  "resources/images/duo/duo_rosa.jpg": {
+    "file": "assets/duo_rosa-DnhMsTuT.jpg",
+    "src": "resources/images/duo/duo_rosa.jpg"
+  },
+  "resources/images/girasol/girasol_abeja.jpg": {
+    "file": "assets/girasol_abeja-DEtit0Wq.jpg",
+    "src": "resources/images/girasol/girasol_abeja.jpg"
+  },
+  "resources/images/girasol/girasol_abejas.jpg": {
+    "file": "assets/girasol_abejas-vtcZM9nI.jpg",
+    "src": "resources/images/girasol/girasol_abejas.jpg"
+  },
+  "resources/images/girasol/girasol_flor.jpg": {
+    "file": "assets/girasol_flor-De29Yxv9.jpg",
+    "src": "resources/images/girasol/girasol_flor.jpg"
+  },
+  "resources/images/girasol/girasol_pollo.jpg": {
+    "file": "assets/girasol_pollo-Ckoy9XQs.jpg",
+    "src": "resources/images/girasol/girasol_pollo.jpg"
+  },
+  "resources/images/girasol/ramo_amarillo_pollito.jpg": {
+    "file": "assets/ramo_amarillo_pollito-BREdfauy.jpg",
+    "src": "resources/images/girasol/ramo_amarillo_pollito.jpg"
+  },
+  "resources/images/logo/logo.png": {
+    "file": "assets/logo-IU5APrI6.png",
+    "src": "resources/images/logo/logo.png"
+  },
+  "resources/images/munecas/muneca_celeste/muneca_celeste.jpg": {
+    "file": "assets/muneca_celeste-B8FVdvfC.jpg",
+    "src": "resources/images/munecas/muneca_celeste/muneca_celeste.jpg"
+  },
+  "resources/images/munecas/muneca_celeste/muneca_celeste2.jpg": {
+    "file": "assets/muneca_celeste2-DKNsTWOQ.jpg",
+    "src": "resources/images/munecas/muneca_celeste/muneca_celeste2.jpg"
+  },
+  "resources/images/munecas/muneca_girasol/muneca_flores.jpg": {
+    "file": "assets/muneca_flores-C4N_HY7z.jpg",
+    "src": "resources/images/munecas/muneca_girasol/muneca_flores.jpg"
+  },
+  "resources/images/munecas/muneca_girasol/muneca_flores2.jpg": {
+    "file": "assets/muneca_flores2-Fkw0brTW.jpg",
+    "src": "resources/images/munecas/muneca_girasol/muneca_flores2.jpg"
+  },
+  "resources/images/munecas/muneca_girasol/muneca_flores3.jpg": {
+    "file": "assets/muneca_flores3-93V8GgRV.jpg",
+    "src": "resources/images/munecas/muneca_girasol/muneca_flores3.jpg"
+  },
+  "resources/images/munecas/muneca_rosa/muneca_rosa.jpg": {
+    "file": "assets/muneca_rosa-C8bb07uy.jpg",
+    "src": "resources/images/munecas/muneca_rosa/muneca_rosa.jpg"
+  },
+  "resources/images/munecas/muneca_rosa/muneca_rosa2.jpg": {
+    "file": "assets/muneca_rosa2-CbSs8WA_.jpg",
+    "src": "resources/images/munecas/muneca_rosa/muneca_rosa2.jpg"
+  },
+  "resources/images/munecas/munecas.jpg": {
+    "file": "assets/munecas-BGVH5Id2.jpg",
+    "src": "resources/images/munecas/munecas.jpg"
+  },
+  "resources/images/munecas/munecas2.jpg": {
+    "file": "assets/munecas2--sok5kjG.jpg",
+    "src": "resources/images/munecas/munecas2.jpg"
+  },
+  "resources/images/ramos/3_flores.jpg": {
+    "file": "assets/3_flores-Cvd7HElp.jpg",
+    "src": "resources/images/ramos/3_flores.jpg"
+  },
+  "resources/images/ramos/4 flores.jpg": {
+    "file": "assets/4 flores-D-tpbX8K.jpg",
+    "src": "resources/images/ramos/4 flores.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores1.jpg": {
+    "file": "assets/5_flores1-eM0WuS9a.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores1.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores2.jpg": {
+    "file": "assets/5_flores2-Dr9bfMlE.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores2.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores3.jpg": {
+    "file": "assets/5_flores3-DSyQnKQ8.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores3.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores4.jpg": {
+    "file": "assets/5_flores4-DfrYIu5l.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores4.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores5.jpg": {
+    "file": "assets/5_flores5-BThRNmud.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores5.jpg"
+  },
+  "resources/images/ramos/5_flores/5_flores6.jpg": {
+    "file": "assets/5_flores6-B9_Rb9VL.jpg",
+    "src": "resources/images/ramos/5_flores/5_flores6.jpg"
+  },
+  "resources/images/ramos/multiramo/multiramo.jpg": {
+    "file": "assets/multiramo-xpnS1odZ.jpg",
+    "src": "resources/images/ramos/multiramo/multiramo.jpg"
+  },
+  "resources/images/ramos/multiramo/ramo_azul_celeste.jpg": {
+    "file": "assets/ramo_azul_celeste-CA-CtKCz.jpg",
+    "src": "resources/images/ramos/multiramo/ramo_azul_celeste.jpg"
+  },
+  "resources/images/ramos/multiramo/ramo_multiflores.jpg": {
+    "file": "assets/ramo_multiflores-DjhostGT.jpg",
+    "src": "resources/images/ramos/multiramo/ramo_multiflores.jpg"
+  },
+  "resources/images/ramos/multiramo/ramo_multiflores2.jpg": {
+    "file": "assets/ramo_multiflores2-BPOlkMP2.jpg",
+    "src": "resources/images/ramos/multiramo/ramo_multiflores2.jpg"
+  },
+  "resources/images/ramos/multiramo/ramo_multiflroes3.jpg": {
+    "file": "assets/ramo_multiflroes3-DAEvhj42.jpg",
+    "src": "resources/images/ramos/multiramo/ramo_multiflroes3.jpg"
+  },
+  "resources/images/ramos/ramo_abeja/ramo_amarillo_abeja.jpg": {
+    "file": "assets/ramo_amarillo_abeja-BQbpzIdS.jpg",
+    "src": "resources/images/ramos/ramo_abeja/ramo_amarillo_abeja.jpg"
+  },
+  "resources/images/ramos/ramo_abeja/ramo_azul_abeja.jpg": {
+    "file": "assets/ramo_azul_abeja-CiyE16JI.jpg",
+    "src": "resources/images/ramos/ramo_abeja/ramo_azul_abeja.jpg"
+  },
+  "resources/images/ramos/ramo_amarillo.jpg": {
+    "file": "assets/ramo_amarillo-BPPHA5PN.jpg",
+    "src": "resources/images/ramos/ramo_amarillo.jpg"
+  },
+  "resources/images/ramos/ramo_azul.jpg": {
+    "file": "assets/ramo_azul-DMvDOfYY.jpg",
+    "src": "resources/images/ramos/ramo_azul.jpg"
+  },
+  "resources/images/ramos/ramo_blanco.jpg": {
+    "file": "assets/ramo_blanco-EUPq1UJP.jpg",
+    "src": "resources/images/ramos/ramo_blanco.jpg"
+  },
+  "resources/images/ramos/ramo_blanco_amarillo.jpg": {
+    "file": "assets/ramo_blanco_amarillo-Bg-XYJeZ.jpg",
+    "src": "resources/images/ramos/ramo_blanco_amarillo.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_azul_blanco.jpg": {
+    "file": "assets/ramo_azul_blanco-CcmDw-ja.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_azul_blanco.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_azul_gatito.jpg": {
+    "file": "assets/ramo_azul_gatito-BiRnw9qL.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_azul_gatito.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_rosa_blanco.jpg": {
+    "file": "assets/ramo_rosa_blanco-Bz1EciDP.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_rosa_blanco.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_rosa_gatito.jpg": {
+    "file": "assets/ramo_rosa_gatito-BikFolav.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_rosa_gatito.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg": {
+    "file": "assets/ramo_rosa_gato-CAhUgtzc.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_rosa_gato.jpg"
+  },
+  "resources/images/ramos/ramo_gato/ramo_rosado_gato.jpg": {
+    "file": "assets/ramo_rosado_gato-Ba120llt.jpg",
+    "src": "resources/images/ramos/ramo_gato/ramo_rosado_gato.jpg"
+  },
+  "resources/images/ramos/ramo_girasol.jpg": {
+    "file": "assets/ramo_girasol-DlEUvBmT.jpg",
+    "src": "resources/images/ramos/ramo_girasol.jpg"
+  },
+  "resources/images/ramos/ramo_pollo/flores_pollo/ramo_amarillo_blanco.jpg": {
+    "file": "assets/ramo_amarillo_blanco-lzdEAu0l.jpg",
+    "src": "resources/images/ramos/ramo_pollo/flores_pollo/ramo_amarillo_blanco.jpg"
+  },
+  "resources/images/ramos/ramo_pollo/flores_pollo/ramo_rosa_pollo.jpg": {
+    "file": "assets/ramo_rosa_pollo-CtK--605.jpg",
+    "src": "resources/images/ramos/ramo_pollo/flores_pollo/ramo_rosa_pollo.jpg"
+  },
+  "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_girasol_flor.jpg": {
+    "file": "assets/ramo_girasol_flor-85KrnLIq.jpg",
+    "src": "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_girasol_flor.jpg"
+  },
+  "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_girasol_pollo.jpg": {
+    "file": "assets/ramo_girasol_pollo-DsZwQX9x.jpg",
+    "src": "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_girasol_pollo.jpg"
+  },
+  "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_pollito.jpg": {
+    "file": "assets/ramo_pollito-KoYjaFlN.jpg",
+    "src": "resources/images/ramos/ramo_pollo/girasol_pollo/ramo_pollito.jpg"
+  },
+  "resources/images/ramos/ramo_rosas.jpg": {
+    "file": "assets/ramo_rosas-QODCkbtH.jpg",
+    "src": "resources/images/ramos/ramo_rosas.jpg"
+  },
+  "resources/images/ramos/rosas/4_rosas.jpg": {
+    "file": "assets/4_rosas-B37z1ZuB.jpg",
+    "src": "resources/images/ramos/rosas/4_rosas.jpg"
+  },
+  "resources/images/ramos/rosas/ramo rosa.jpg": {
+    "file": "assets/ramo rosa-DnARUJHf.jpg",
+    "src": "resources/images/ramos/rosas/ramo rosa.jpg"
+  },
+  "resources/images/ramos/rosas/ramo_rojo.jpg": {
+    "file": "assets/ramo_rojo-DsbgJ8Tn.jpg",
+    "src": "resources/images/ramos/rosas/ramo_rojo.jpg"
+  },
+  "resources/images/ramos/rosas/rosas.jpg": {
+    "file": "assets/rosas-Bnxr0HG6.jpg",
+    "src": "resources/images/ramos/rosas/rosas.jpg"
+  },
+  "resources/images/rosas/flor_blanca.jpg": {
+    "file": "assets/flor_blanca-CVXEXYDp.jpg",
+    "src": "resources/images/rosas/flor_blanca.jpg"
+  },
+  "resources/images/rosas/rosa_morada.jpg": {
+    "file": "assets/rosa_morada-B5W5KM1_.jpg",
+    "src": "resources/images/rosas/rosa_morada.jpg"
+  },
+  "resources/images/rosas/rosa_roja.jpg": {
+    "file": "assets/rosa_roja-DCgiR_iB.jpg",
+    "src": "resources/images/rosas/rosa_roja.jpg"
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-B6BdxAmo.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true,
+    "css": [
+      "assets/app-DSx1oK-9.css"
+    ]
+  }
+}
