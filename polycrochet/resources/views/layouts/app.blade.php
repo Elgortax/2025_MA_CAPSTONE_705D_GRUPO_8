@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'PolyCrochet')</title>
+  <link rel="icon" type="image/png" href="{{ asset('img/logo.png') }}">
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-gradient-to-br from-[#f9f5f1] via-[#fdf9f5] to-[#f3f1ff] text-slate-900 antialiased selection:bg-rose-200 selection:text-rose-900">
