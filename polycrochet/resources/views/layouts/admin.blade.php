@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <title>@yield('title', 'Panel | PolyCrochet')</title>
   @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
@@ -14,7 +15,7 @@
       <a href="{{ route('admin.products.index') }}" class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.products.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Productos</a>
       <a href="{{ route('admin.orders.index') }}" class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.orders.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Pedidos</a>
       <a href="{{ route('admin.customers.index') }}" class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.customers.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Clientes</a>
-      <a href="{{ route('admin.settings.edit') }}" class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.settings.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Configuracion</a>
+      <a href="{{ route('admin.settings.edit') }}" class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.settings.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Configuración</a>
     </nav>
   </aside>
 
@@ -28,7 +29,7 @@
           aria-expanded="false"
           aria-controls="admin-mobile-menu"
         >
-          Menu
+          Menú
         </button>
         <h1 class="text-lg font-semibold text-white">@yield('page_heading', 'Resumen')</h1>
       </div>
@@ -44,7 +45,7 @@
           <a href="{{ route('admin.products.index') }}" data-mobile-menu-close class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.products.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Productos</a>
           <a href="{{ route('admin.orders.index') }}" data-mobile-menu-close class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.orders.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Pedidos</a>
           <a href="{{ route('admin.customers.index') }}" data-mobile-menu-close class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.customers.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Clientes</a>
-          <a href="{{ route('admin.settings.edit') }}" data-mobile-menu-close class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.settings.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Configuracion</a>
+          <a href="{{ route('admin.settings.edit') }}" data-mobile-menu-close class="block rounded-lg px-3 py-2 {{ request()->routeIs('admin.settings.*') ? 'bg-slate-800 text-white' : 'text-slate-400 hover:bg-slate-900 hover:text-white' }}">Configuración</a>
         </nav>
       </div>
     </header>
